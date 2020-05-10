@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysSalaryMapper">
+    
+    <resultMap type="SysSalary" id="SysSalaryResult">
+        <result property="salaryId"    column="salary_id"    />
+        <result property="salaryName"    column="salary_name"    />
+        <result property="salaryDept"    column="salary_dept"    />
+        <result property="salaryAmount"    column="salary_amount"    />
+    </resultMap>
+
+    <sql id="selectSysSalaryVo">
+        select salary_id, salary_name, salary_dept, salary_amount from sys_salary
+    </sql>
+
+    <select id="selectSysSalaryList" parameterType="SysSalary" resultMap="SysSalaryResult">
+        <include refid="selectSysSalaryVo"/>
+        <where>  
+            <if test="salaryName != null  and salaryName != ''"> and salary_name like concat('%', #{salaryName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectSysSalaryById" parameterType="Long" resultMap="SysSalaryResult">
+        <include refid="selectSysSalaryVo"/>
+        where salary_id = #{salaryId}
+    </select>
+        
+    <insert id="insertSysSalary" parameterType="SysSalary" useGeneratedKeys="true" keyProperty="salaryId">
+        insert into sys_salary
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="salaryName != null  and salaryName != ''">salary_name,</if>
+            <if test="salaryDept != null  and salaryDept != ''">salary_dept,</if>
+            <if test="salaryAmount != null ">salary_amount,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="salaryName != null  and salaryName != ''">#{salaryName},</if>
+            <if test="salaryDept != null  and salaryDept != ''">#{salaryDept},</if>
+            <if test="salaryAmount != null ">#{salaryAmount},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysSalary" parameterType="SysSalary">
+        update sys_salary
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="salaryName != null  and salaryName != ''">salary_name = #{salaryName},</if>
+            <if test="salaryDept != null  and salaryDept != ''">salary_dept = #{salaryDept},</if>
+            <if test="salaryAmount != null ">salary_amount = #{salaryAmount},</if>
+        </trim>
+        where salary_id = #{salaryId}
+    </update>
+
+    <delete id="deleteSysSalaryById" parameterType="Long">
+        delete from sys_salary where salary_id = #{salaryId}
+    </delete>
+
+    <delete id="deleteSysSalaryByIds" parameterType="String">
+        delete from sys_salary where salary_id in 
+        <foreach item="salaryId" collection="array" open="(" separator="," close=")">
+            #{salaryId}
+        </foreach>
+    </delete>
+    
+</mapper>

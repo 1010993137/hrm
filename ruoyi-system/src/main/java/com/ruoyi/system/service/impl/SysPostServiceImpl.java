@@ -73,6 +73,30 @@ public class SysPostServiceImpl implements ISysPostService
         }
         return posts;
     }
+    /**
+     * 根据员工ID查询岗位
+     * 
+     * @param employeeId 员工ID
+     * @return 岗位列表
+     */
+    
+	@Override
+	public List<SysPost> selectPostsByEmployeeId(Long employeeId) {
+		List<SysPost> employeePosts = postMapper.selectPostsByEmployeeId(employeeId);
+        List<SysPost> posts = postMapper.selectPostAll();
+        for (SysPost post : posts)
+        {
+            for (SysPost userRole : employeePosts)
+            {
+                if (post.getPostId().longValue() == userRole.getPostId().longValue())
+                {
+                    post.setFlag(true);
+                    break;
+                }
+            }
+        }
+        return posts;
+	}
 
     /**
      * 通过岗位ID查询岗位信息
@@ -178,4 +202,8 @@ public class SysPostServiceImpl implements ISysPostService
         }
         return UserConstants.POST_CODE_UNIQUE;
     }
+
+
+
+	
 }

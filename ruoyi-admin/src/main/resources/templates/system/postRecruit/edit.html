@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改招聘岗位管理')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-postRecruit-edit" th:object="${sysPostRecruit}">
+            <input name="postRecruitId" th:field="*{postRecruitId}" type="hidden">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">岗位名：</label>
+                <div class="col-sm-8">
+                    <input name="postRecruitName" th:field="*{postRecruitName}" class="form-control" type="text" readonly="true" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">招聘人数：</label>
+                <div class="col-sm-8">
+                    <input name="postRecruitNum" th:field="*{postRecruitNum}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">最低学历：</label>
+                <div class="col-sm-8">
+                    <select name="postRecruitEducation" class="form-control m-b" th:with="type=${@dict.getType('sys_user_degree')}" required>
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{postRecruitEducation}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">详细要求：</label>
+                <div class="col-sm-8">
+                    <textarea name="postRecruitRemark" class="form-control" required>[[*{postRecruitRemark}]]</textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        var prefix = ctx + "system/postRecruit";
+        $("#form-postRecruit-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-postRecruit-edit').serialize());
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增招聘岗位管理')" />
+    <th:block th:include="include :: select2-css" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-postRecruit-add">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">岗位名：</label>
+                <div class="col-sm-8">
+                    <select id="post" class="form-control select2-multiple">
+						<option th:each="post:${posts}" th:value="${post.postId}" th:text="${post.postName}" th:disabled="${post.status == '1'}"></option>
+					</select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">招聘人数：</label>
+                <div class="col-sm-8">
+                    <input name="postRecruitNum" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">最低学历：</label>
+                <div class="col-sm-8">
+                    <select name="postRecruitEducation" class="form-control m-b" th:with="type=${@dict.getType('sys_user_degree')}" required>
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">详细要求：</label>
+                <div class="col-sm-8">
+                    <textarea name="postRecruitRemark" class="form-control" required></textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: select2-js" />
+    <script type="text/javascript">
+        var prefix = ctx + "system/postRecruit"
+        $("#form-postRecruit-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                var data = $("#form-postRecruit-add").serializeArray();
+            	var postRecruitName = $("#post").find("option:selected").text();
+	        	data.push({"name": "postRecruitName", "value": postRecruitName});
+                $.operate.save(prefix + "/add", data);
+            }
+        }
+        
+        $(function() {
+            $('#post').select2({
+                placeholder: "请选择岗位",
+                allowClear: true
+            });
+        })
+    </script>
+</body>
+</html>

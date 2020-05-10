@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysRecruitMapper">
+    
+    <resultMap type="SysRecruit" id="SysRecruitResult">
+        <result property="recruitId"    column="recruit_id"    />
+        <result property="recruitName"    column="recruit_name"    />
+        <result property="recruitStatus"    column="recruit_status"    />
+        <result property="recruitSex"    column="recruit_sex"    />
+        <result property="recruitAge"    column="recruit_age"    />
+        <result property="recruitEducation"    column="recruit_education"    />
+        <result property="recruitPhone"    column="recruit_phone"    />
+        <result property="recruitEmail"    column="recruit_email"    />
+        <result property="recruitSchool"    column="recruit_school"    />
+    </resultMap>
+
+    <sql id="selectSysRecruitVo">
+        select recruit_id, recruit_name, recruit_status, recruit_sex, recruit_age, recruit_education, recruit_phone, recruit_email, recruit_school from sys_recruit
+    </sql>
+
+    <select id="selectSysRecruitList" parameterType="SysRecruit" resultMap="SysRecruitResult">
+        <include refid="selectSysRecruitVo"/>
+        <where>  
+            <if test="recruitName != null  and recruitName != ''"> and recruit_name like concat('%', #{recruitName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectSysRecruitById" parameterType="Long" resultMap="SysRecruitResult">
+        <include refid="selectSysRecruitVo"/>
+        where recruit_id = #{recruitId}
+    </select>
+        
+    <insert id="insertSysRecruit" parameterType="SysRecruit" useGeneratedKeys="true" keyProperty="recruitId">
+        insert into sys_recruit
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="recruitName != null  and recruitName != ''">recruit_name,</if>
+            <if test="recruitStatus != null  and recruitStatus != ''">recruit_status,</if>
+            <if test="recruitSex != null  and recruitSex != ''">recruit_sex,</if>
+            <if test="recruitAge != null  and recruitAge != ''">recruit_age,</if>
+            <if test="recruitEducation != null  and recruitEducation != ''">recruit_education,</if>
+            <if test="recruitPhone != null  and recruitPhone != ''">recruit_phone,</if>
+            <if test="recruitEmail != null  and recruitEmail != ''">recruit_email,</if>
+            <if test="recruitSchool != null  and recruitSchool != ''">recruit_school,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="recruitName != null  and recruitName != ''">#{recruitName},</if>
+            <if test="recruitStatus != null  and recruitStatus != ''">#{recruitStatus},</if>
+            <if test="recruitSex != null  and recruitSex != ''">#{recruitSex},</if>
+            <if test="recruitAge != null  and recruitAge != ''">#{recruitAge},</if>
+            <if test="recruitEducation != null  and recruitEducation != ''">#{recruitEducation},</if>
+            <if test="recruitPhone != null  and recruitPhone != ''">#{recruitPhone},</if>
+            <if test="recruitEmail != null  and recruitEmail != ''">#{recruitEmail},</if>
+            <if test="recruitSchool != null  and recruitSchool != ''">#{recruitSchool},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysRecruit" parameterType="SysRecruit">
+        update sys_recruit
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="recruitName != null  and recruitName != ''">recruit_name = #{recruitName},</if>
+            <if test="recruitStatus != null  and recruitStatus != ''">recruit_status = #{recruitStatus},</if>
+            <if test="recruitSex != null  and recruitSex != ''">recruit_sex = #{recruitSex},</if>
+            <if test="recruitAge != null  and recruitAge != ''">recruit_age = #{recruitAge},</if>
+            <if test="recruitEducation != null  and recruitEducation != ''">recruit_education = #{recruitEducation},</if>
+            <if test="recruitPhone != null  and recruitPhone != ''">recruit_phone = #{recruitPhone},</if>
+            <if test="recruitEmail != null  and recruitEmail != ''">recruit_email = #{recruitEmail},</if>
+            <if test="recruitSchool != null  and recruitSchool != ''">recruit_school = #{recruitSchool},</if>
+        </trim>
+        where recruit_id = #{recruitId}
+    </update>
+
+    <delete id="deleteSysRecruitById" parameterType="Long">
+        delete from sys_recruit where recruit_id = #{recruitId}
+    </delete>
+
+    <delete id="deleteSysRecruitByIds" parameterType="String">
+        delete from sys_recruit where recruit_id in 
+        <foreach item="recruitId" collection="array" open="(" separator="," close=")">
+            #{recruitId}
+        </foreach>
+    </delete>
+    
+</mapper>

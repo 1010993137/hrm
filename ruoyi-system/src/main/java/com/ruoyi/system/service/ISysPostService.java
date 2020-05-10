@@ -32,6 +32,14 @@ public interface ISysPostService
      * @return 岗位列表
      */
     public List<SysPost> selectPostsByUserId(Long userId);
+    
+    /**
+     * 根据员工ID查询岗位
+     * 
+     * @param employeId 员工ID
+     * @return 岗位列表
+     */
+    public List<SysPost> selectPostsByEmployeeId(Long employeeId);
 
     /**
      * 通过岗位ID查询岗位信息

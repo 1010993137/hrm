@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改应聘人员信息')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-recruit-edit" th:object="${sysRecruit}">
+            <input name="recruitId" th:field="*{recruitId}" type="hidden">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">姓名：</label>
+                <div class="col-sm-8">
+                    <input name="recruitName" th:field="*{recruitName}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">目前状态：</label>
+                <div class="col-sm-8">
+                    <div class="radio-box" th:each="dict : ${@dict.getType('sys_recruit_status')}">
+                        <input type="radio" th:id="${'recruitStatus_' + dict.dictCode}" name="recruitStatus" th:value="${dict.dictValue}" th:field="*{recruitStatus}" required>
+                        <label th:for="${'recruitStatus_' + dict.dictCode}" th:text="${dict.dictLabel}"></label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">性别：</label>
+                <div class="col-sm-8">
+                    <select name="recruitSex" class="form-control m-b" th:with="type=${@dict.getType('sys_user_sex')}" required>
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{recruitSex}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">年龄：</label>
+                <div class="col-sm-8">
+                    <input name="recruitAge" th:field="*{recruitAge}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">学历：</label>
+                <div class="col-sm-8">
+                    <select name="recruitEducation" class="form-control m-b" th:with="type=${@dict.getType('sys_user_degree')}" required>
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{recruitEducation}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">电话：</label>
+                <div class="col-sm-8">
+                    <input name="recruitPhone" th:field="*{recruitPhone}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">邮箱：</label>
+                <div class="col-sm-8">
+                    <input name="recruitEmail" th:field="*{recruitEmail}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">毕业院校：</label>
+                <div class="col-sm-8">
+                    <input name="recruitSchool" th:field="*{recruitSchool}" class="form-control" type="text" required>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        var prefix = ctx + "system/recruit";
+        $("#form-recruit-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-recruit-edit').serialize());
+            }
+        }
+    </script>
+</body>
+</html>

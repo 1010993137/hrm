@@ -1,6 +1,8 @@
 package com.ruoyi.web.controller.system;
 
 import java.util.List;
+
+import com.ruoyi.system.service.ISysEmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -15,13 +17,15 @@ import com.ruoyi.system.service.ISysMenuService;
 /**
  * 首页 业务处理
  * 
- * @author ruoyi
+ * @author gaoyang
  */
 @Controller
 public class SysIndexController extends BaseController
 {
     @Autowired
     private ISysMenuService menuService;
+    @Autowired
+    private ISysEmployeeService sysEmployeeService;
 
     // 系统首页
     @GetMapping("/index")
@@ -45,11 +49,20 @@ public class SysIndexController extends BaseController
         return "skin";
     }
 
-    // 系统介绍
+    // 公司概况
     @GetMapping("/system/main")
     public String main(ModelMap mmap)
     {
+        //获取员工总数
+        String employeeNum = sysEmployeeService.getEmployeeNum();
+        //获取正式员工数量
+        String formalEmployeeNum = sysEmployeeService.getFormalEmployeeNum();
+        //获取本月入职人数
+        String thisMonthEntryEmployeeNum = sysEmployeeService.getTisMonthEntryEmployeeNum();
         mmap.put("version", Global.getVersion());
+        mmap.put("employeeNum",employeeNum);
+        mmap.put("formalEmployeeNum",formalEmployeeNum);
+        mmap.put("thisMonthEntryEmployeeNum",thisMonthEntryEmployeeNum);
         return "main";
     }
 }
