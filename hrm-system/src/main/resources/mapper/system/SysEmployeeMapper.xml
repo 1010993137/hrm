@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hrm.system.mapper.SysEmployeeMapper">
+    
+    <resultMap type="SysEmployee" id="SysEmployeeResult">
+        <result property="employeeId"    column="employee_id"    />
+        <result property="employeeName"    column="employee_name"    />
+        <result property="employeeAge"    column="employee_age"    />
+        <result property="employeeSex"    column="employee_sex"    />
+        <result property="employeeStatus"    column="employee_status"    />
+        <result property="employeeBirthday"    column="employee_birthday"    />
+        <result property="employeeSchool"    column="employee_school"    />
+        <result property="employeeType"    column="employee_type"    />
+        <result property="employeeDegree"    column="employee_degree"    />
+        <result property="employeeDep"    column="employee_dep"    />
+        <result property="employeePost"    column="employee_post"    />
+        <result property="employeeEntryDate"    column="employee_entry_date"    />
+        <result property="employeeEntryLength"    column="employee_entry_length"    />
+        <result property="employeeWorkDate"    column="employee_work_date"    />
+        <result property="employeeWorkLength"    column="employee_work_length"    />
+    </resultMap>
+
+    <resultMap id="SysEmployeeAgeDistribution" type="SysEmployeeAgeDistribution">
+        <result property="employeeAge"    column="employee_age"    />
+        <result property="employeeAgeCount"    column="employee_age_count"    />
+    </resultMap>
+
+    <resultMap id="SysEmployeeDegreeDistribution" type="SysEmployeeDegreeDistribution">
+        <result property="employeeDegree"    column="employee_degree"    />
+        <result property="employeeDegreeNum"    column="employee_degree_num"    />
+    </resultMap>
+
+    <sql id="selectSysEmployeeVo">
+        select employee_id, employee_name, employee_sex, employee_status, employee_birthday, employee_school, employee_type, employee_degree, employee_dep, employee_post, employee_entry_date, employee_entry_length, employee_work_date, employee_work_length from sys_employee
+    </sql>
+
+    <select id="selectSysEmployeeList" parameterType="SysEmployee" resultMap="SysEmployeeResult">
+        <include refid="selectSysEmployeeVo"/>
+        <where>  
+            <if test="employeeName != null  and employeeName != ''"> and employee_name like concat('%', #{employeeName}, '%')</if>
+            <if test="employeeDep != null  and employeeDep != ''"> and employee_dep like concat('%', #{employeeDep}, '%')</if>
+            <if test="employeePost != null  and employeePost != ''"> and employee_post like concat('%', #{employeePost}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectEmployeeAll" resultMap="SysEmployeeResult">
+		<include refid="selectSysEmployeeVo"/>
+	</select>
+	
+    <select id="selectSysEmployeeById" parameterType="Long" resultMap="SysEmployeeResult">
+        <include refid="selectSysEmployeeVo"/>
+        where employee_id = #{employeeId}
+    </select>
+    
+    <select id="selectDeptByName" parameterType="String" resultMap="SysEmployeeResult">
+    	<include refid="selectSysEmployeeVo"/>
+    	where employee_name = #{employeeName}
+    </select>
+        
+    <insert id="insertSysEmployee" parameterType="SysEmployee" useGeneratedKeys="true" keyProperty="employeeId">
+        insert into sys_employee
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="employeeName != null  and employeeName != ''">employee_name,</if>
+            <if test="employeeAge != null ">employee_age,</if>
+            <if test="employeeSex != null  and employeeSex != ''">employee_sex,</if>
+            <if test="employeeStatus != null  and employeeStatus != ''">employee_status,</if>
+            <if test="employeeBirthday != null ">employee_birthday,</if>
+            <if test="employeeSchool != null  and employeeSchool != ''">employee_school,</if>
+            <if test="employeeType != null  and employeeType != ''">employee_type,</if>
+            <if test="employeeDegree != null  and employeeDegree != ''">employee_degree,</if>
+            <if test="employeeDep != null  and employeeDep != ''">employee_dep,</if>
+            <if test="employeePost != null  and employeePost != ''">employee_post,</if>
+            <if test="employeeEntryDate != null ">employee_entry_date,</if>
+            <if test="employeeEntryLength != null ">employee_entry_length,</if>
+            <if test="employeeWorkDate != null ">employee_work_date,</if>
+            <if test="employeeWorkLength != null ">employee_work_length,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="employeeName != null  and employeeName != ''">#{employeeName},</if>
+            <if test="employeeAge != null ">#{employeeAge},</if>
+            <if test="employeeSex != null  and employeeSex != ''">#{employeeSex},</if>
+            <if test="employeeStatus != null  and employeeStatus != ''">#{employeeStatus},</if>
+            <if test="employeeBirthday != null ">#{employeeBirthday},</if>
+            <if test="employeeSchool != null  and employeeSchool != ''">#{employeeSchool},</if>
+            <if test="employeeType != null  and employeeType != ''">#{employeeType},</if>
+            <if test="employeeDegree != null  and employeeDegree != ''">#{employeeDegree},</if>
+            <if test="employeeDep != null  and employeeDep != ''">#{employeeDep},</if>
+            <if test="employeePost != null  and employeePost != ''">#{employeePost},</if>
+            <if test="employeeEntryDate != null ">#{employeeEntryDate},</if>
+            <if test="employeeEntryLength != null ">#{employeeEntryLength},</if>
+            <if test="employeeWorkDate != null ">#{employeeWorkDate},</if>
+            <if test="employeeWorkLength != null ">#{employeeWorkLength},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysEmployee" parameterType="SysEmployee">
+        update sys_employee
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="employeeName != null  and employeeName != ''">employee_name = #{employeeName},</if>
+            <if test="employeeAge != null ">employee_age = #{employeeAge},</if>
+            <if test="employeeSex != null  and employeeSex != ''">employee_sex = #{employeeSex},</if>
+            <if test="employeeStatus != null  and employeeStatus != ''">employee_status = #{employeeStatus},</if>
+            <if test="employeeBirthday != null ">employee_birthday = #{employeeBirthday},</if>
+            <if test="employeeSchool != null  and employeeSchool != ''">employee_school = #{employeeSchool},</if>
+            <if test="employeeType != null  and employeeType != ''">employee_type = #{employeeType},</if>
+            <if test="employeeDegree != null  and employeeDegree != ''">employee_degree = #{employeeDegree},</if>
+            <if test="employeeDep != null  and employeeDep != ''">employee_dep = #{employeeDep},</if>
+            <if test="employeePost != null  and employeePost != ''">employee_post = #{employeePost},</if>
+            <if test="employeeEntryDate != null ">employee_entry_date = #{employeeEntryDate},</if>
+            <if test="employeeEntryLength != null ">employee_entry_length = #{employeeEntryLength},</if>
+            <if test="employeeWorkDate != null ">employee_work_date = #{employeeWorkDate},</if>
+            <if test="employeeWorkLength != null ">employee_work_length = #{employeeWorkLength},</if>
+        </trim>
+        where employee_id = #{employeeId}
+    </update>
+
+    <delete id="deleteSysEmployeeById" parameterType="Long">
+        delete from sys_employee where employee_id = #{employeeId}
+    </delete>
+
+    <delete id="deleteSysEmployeeByIds" parameterType="String">
+        delete from sys_employee where employee_id in 
+        <foreach item="employeeId" collection="array" open="(" separator="," close=")">
+            #{employeeId}
+        </foreach>
+    </delete>
+
+    <select id="getEmployeeNum" parameterType="java.lang.String" resultType="string">
+        select count(*) from sys_employee where employee_status = '0'
+    </select>
+
+    <select id="getFormalEmployeeNum" parameterType="java.lang.String" resultType="string">
+        select count(*) from sys_employee where employee_status = '0' and employee_type='1'
+    </select>
+
+    <select id="getTisMonthEntryEmployeeNum" parameterType="java.lang.String" resultType="string">
+        SELECT COUNT(1) FROM sys_employee WHERE SUBSTR(employee_entry_date,1,7) = SUBSTR(CURDATE(),1,7) and employee_status = '0'
+    </select>
+
+    <select id="getEmployeeAgeDistribution" resultMap="SysEmployeeAgeDistribution">
+        SELECT
+            CASE
+        WHEN YEAR (NOW()) - YEAR (employee_birthday) BETWEEN 0 AND 19 THEN '20以下'
+        WHEN YEAR (NOW()) - YEAR (employee_birthday) BETWEEN 20 AND 25 THEN '21-25'
+        WHEN YEAR (NOW()) - YEAR (employee_birthday) BETWEEN 26 AND 30 THEN '26-30'
+        WHEN YEAR (NOW()) - YEAR (employee_birthday) BETWEEN 31 AND 35 THEN '31-35'
+        WHEN YEAR (NOW()) - YEAR (employee_birthday) BETWEEN 36 AND 40 THEN '36-40'
+        WHEN YEAR (NOW()) - YEAR (employee_birthday) BETWEEN 41 AND 45 THEN '41-45'
+        WHEN YEAR (NOW()) - YEAR (employee_birthday) BETWEEN 46 AND 120 THEN '45以上'
+        ELSE '未知'
+        END AS employee_age,
+        COUNT(*) as employee_age_count
+        FROM
+            sys_employee
+        GROUP BY employee_age
+    </select>
+    <select id="getEmployeeDegreeDistribution" resultMap="SysEmployeeDegreeDistribution">
+        SELECT
+            CASE
+        WHEN employee_degree = '1' THEN
+            '大专'
+        WHEN employee_degree = '2' THEN
+            '本科'
+        WHEN employee_degree = '3' THEN
+            '研究生'
+        WHEN employee_degree = '4' THEN
+            '博士生'
+        ELSE
+            '其他'
+        END AS employee_degree,
+         COUNT(*) AS employee_degree_num
+        FROM
+            sys_employee
+        GROUP BY
+	employee_degree
+    </select>
+</mapper>

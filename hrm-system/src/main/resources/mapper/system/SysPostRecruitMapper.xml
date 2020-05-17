@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hrm.system.mapper.SysPostRecruitMapper">
+    
+    <resultMap type="SysPostRecruit" id="SysPostRecruitResult">
+        <result property="postRecruitId"    column="post_recruit_id"    />
+        <result property="postRecruitName"    column="post_recruit_name"    />
+        <result property="postRecruitNum"    column="post_recruit_num"    />
+        <result property="postRecruitEducation"    column="post_recruit_education"    />
+        <result property="postRecruitRemark"    column="post_recruit_remark"    />
+    </resultMap>
+
+    <sql id="selectSysPostRecruitVo">
+        select post_recruit_id, post_recruit_name, post_recruit_num, post_recruit_education, post_recruit_remark from sys_post_recruit
+    </sql>
+
+    <select id="selectSysPostRecruitList" parameterType="SysPostRecruit" resultMap="SysPostRecruitResult">
+        <include refid="selectSysPostRecruitVo"/>
+        <where>  
+            <if test="postRecruitName != null  and postRecruitName != ''"> and post_recruit_name like concat('%', #{postRecruitName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectSysPostRecruitById" parameterType="Long" resultMap="SysPostRecruitResult">
+        <include refid="selectSysPostRecruitVo"/>
+        where post_recruit_id = #{postRecruitId}
+    </select>
+        
+    <insert id="insertSysPostRecruit" parameterType="SysPostRecruit" useGeneratedKeys="true" keyProperty="postRecruitId">
+        insert into sys_post_recruit
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="postRecruitName != null  and postRecruitName != ''">post_recruit_name,</if>
+            <if test="postRecruitNum != null ">post_recruit_num,</if>
+            <if test="postRecruitEducation != null  and postRecruitEducation != ''">post_recruit_education,</if>
+            <if test="postRecruitRemark != null  and postRecruitRemark != ''">post_recruit_remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="postRecruitName != null  and postRecruitName != ''">#{postRecruitName},</if>
+            <if test="postRecruitNum != null ">#{postRecruitNum},</if>
+            <if test="postRecruitEducation != null  and postRecruitEducation != ''">#{postRecruitEducation},</if>
+            <if test="postRecruitRemark != null  and postRecruitRemark != ''">#{postRecruitRemark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysPostRecruit" parameterType="SysPostRecruit">
+        update sys_post_recruit
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="postRecruitName != null  and postRecruitName != ''">post_recruit_name = #{postRecruitName},</if>
+            <if test="postRecruitNum != null ">post_recruit_num = #{postRecruitNum},</if>
+            <if test="postRecruitEducation != null  and postRecruitEducation != ''">post_recruit_education = #{postRecruitEducation},</if>
+            <if test="postRecruitRemark != null  and postRecruitRemark != ''">post_recruit_remark = #{postRecruitRemark},</if>
+        </trim>
+        where post_recruit_id = #{postRecruitId}
+    </update>
+
+    <delete id="deleteSysPostRecruitById" parameterType="Long">
+        delete from sys_post_recruit where post_recruit_id = #{postRecruitId}
+    </delete>
+
+    <delete id="deleteSysPostRecruitByIds" parameterType="String">
+        delete from sys_post_recruit where post_recruit_id in 
+        <foreach item="postRecruitId" collection="array" open="(" separator="," close=")">
+            #{postRecruitId}
+        </foreach>
+    </delete>
+    
+</mapper>

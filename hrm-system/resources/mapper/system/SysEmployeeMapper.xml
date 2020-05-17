@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hrm.system.mapper.SysEmployeeMapper">
+    
+    <resultMap type="SysEmployee" id="SysEmployeeResult">
+        <result property="employeeId"    column="employee_id"    />
+        <result property="employeeName"    column="employee_name"    />
+        <result property="employeeAge"    column="employee_age"    />
+        <result property="employeeSex"    column="employee_sex"    />
+        <result property="employeeStatus"    column="employee_status"    />
+        <result property="employeeBirthday"    column="employee_birthday"    />
+        <result property="employeeSchool"    column="employee_school"    />
+        <result property="employeeType"    column="employee_type"    />
+        <result property="employeeDegree"    column="employee_degree"    />
+        <result property="employeeDep"    column="employee_dep"    />
+        <result property="employeePost"    column="employee_post"    />
+    </resultMap>
+
+    <sql id="selectSysEmployeeVo">
+        select employee_id, employee_name, employee_age, employee_sex, employee_status, employee_birthday, employee_school, employee_type, employee_degree, employee_dep, employee_post from sys_employee
+    </sql>
+
+    <select id="selectSysEmployeeList" parameterType="SysEmployee" resultMap="SysEmployeeResult">
+        <include refid="selectSysEmployeeVo"/>
+        <where>  
+            <if test="employeeName != null  and employeeName != ''"> and employee_name like concat('%', #{employeeName}, '%')</if>
+            <if test="employeeDep != null  and employeeDep != ''"> and employee_dep = #{employeeDep}</if>
+            <if test="employeePost != null  and employeePost != ''"> and employee_post = #{employeePost}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysEmployeeById" parameterType="Long" resultMap="SysEmployeeResult">
+        <include refid="selectSysEmployeeVo"/>
+        where employee_id = #{employeeId}
+    </select>
+        
+    <insert id="insertSysEmployee" parameterType="SysEmployee" useGeneratedKeys="true" keyProperty="employeeId">
+        insert into sys_employee
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="employeeName != null  and employeeName != ''">employee_name,</if>
+            <if test="employeeAge != null ">employee_age,</if>
+            <if test="employeeSex != null  and employeeSex != ''">employee_sex,</if>
+            <if test="employeeStatus != null  and employeeStatus != ''">employee_status,</if>
+            <if test="employeeBirthday != null ">employee_birthday,</if>
+            <if test="employeeSchool != null  and employeeSchool != ''">employee_school,</if>
+            <if test="employeeType != null  and employeeType != ''">employee_type,</if>
+            <if test="employeeDegree != null  and employeeDegree != ''">employee_degree,</if>
+            <if test="employeeDep != null  and employeeDep != ''">employee_dep,</if>
+            <if test="employeePost != null  and employeePost != ''">employee_post,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="employeeName != null  and employeeName != ''">#{employeeName},</if>
+            <if test="employeeAge != null ">#{employeeAge},</if>
+            <if test="employeeSex != null  and employeeSex != ''">#{employeeSex},</if>
+            <if test="employeeStatus != null  and employeeStatus != ''">#{employeeStatus},</if>
+            <if test="employeeBirthday != null ">#{employeeBirthday},</if>
+            <if test="employeeSchool != null  and employeeSchool != ''">#{employeeSchool},</if>
+            <if test="employeeType != null  and employeeType != ''">#{employeeType},</if>
+            <if test="employeeDegree != null  and employeeDegree != ''">#{employeeDegree},</if>
+            <if test="employeeDep != null  and employeeDep != ''">#{employeeDep},</if>
+            <if test="employeePost != null  and employeePost != ''">#{employeePost},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysEmployee" parameterType="SysEmployee">
+        update sys_employee
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="employeeName != null  and employeeName != ''">employee_name = #{employeeName},</if>
+            <if test="employeeAge != null ">employee_age = #{employeeAge},</if>
+            <if test="employeeSex != null  and employeeSex != ''">employee_sex = #{employeeSex},</if>
+            <if test="employeeStatus != null  and employeeStatus != ''">employee_status = #{employeeStatus},</if>
+            <if test="employeeBirthday != null ">employee_birthday = #{employeeBirthday},</if>
+            <if test="employeeSchool != null  and employeeSchool != ''">employee_school = #{employeeSchool},</if>
+            <if test="employeeType != null  and employeeType != ''">employee_type = #{employeeType},</if>
+            <if test="employeeDegree != null  and employeeDegree != ''">employee_degree = #{employeeDegree},</if>
+            <if test="employeeDep != null  and employeeDep != ''">employee_dep = #{employeeDep},</if>
+            <if test="employeePost != null  and employeePost != ''">employee_post = #{employeePost},</if>
+        </trim>
+        where employee_id = #{employeeId}
+    </update>
+
+    <delete id="deleteSysEmployeeById" parameterType="Long">
+        delete from sys_employee where employee_id = #{employeeId}
+    </delete>
+
+    <delete id="deleteSysEmployeeByIds" parameterType="String">
+        delete from sys_employee where employee_id in 
+        <foreach item="employeeId" collection="array" open="(" separator="," close=")">
+            #{employeeId}
+        </foreach>
+    </delete>
+    
+</mapper>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hrm.system.mapper.SysPenaltiesMapper">
+    
+    <resultMap type="SysPenalties" id="SysPenaltiesResult">
+        <result property="penaltiesId"    column="penalties_id"    />
+        <result property="penaltiesName"    column="penalties_name"    />
+        <result property="penaltiesDept"    column="penalties_dept"    />
+        <result property="penaltiesType"    column="penalties_type"    />
+        <result property="penaltiesResion"    column="penalties_resion"    />
+        <result property="penaltiesAmount"    column="penalties_amount"    />
+        <result property="penaltiesDate"    column="penalties_date"    />
+    </resultMap>
+
+    <sql id="selectSysPenaltiesVo">
+        select penalties_id, penalties_name, penalties_dept, penalties_type, penalties_resion, penalties_amount, penalties_date from sys_penalties
+    </sql>
+
+    <select id="selectSysPenaltiesList" parameterType="SysPenalties" resultMap="SysPenaltiesResult">
+        <include refid="selectSysPenaltiesVo"/>
+        <where>  
+            <if test="penaltiesName != null  and penaltiesName != ''"> and penalties_name like concat('%', #{penaltiesName}, '%')</if>
+            <if test="penaltiesDept != null  and penaltiesDept != ''"> and penalties_dept = #{penaltiesDept}</if>
+            <if test="penaltiesType != null  and penaltiesType != ''"> and penalties_type = #{penaltiesType}</if>
+            <if test="penaltiesDate != null "> and penalties_date = #{penaltiesDate}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysPenaltiesById" parameterType="Long" resultMap="SysPenaltiesResult">
+        <include refid="selectSysPenaltiesVo"/>
+        where penalties_id = #{penaltiesId}
+    </select>
+        
+    <insert id="insertSysPenalties" parameterType="SysPenalties" useGeneratedKeys="true" keyProperty="penaltiesId">
+        insert into sys_penalties
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="penaltiesName != null  and penaltiesName != ''">penalties_name,</if>
+            <if test="penaltiesDept != null  and penaltiesDept != ''">penalties_dept,</if>
+            <if test="penaltiesType != null  and penaltiesType != ''">penalties_type,</if>
+            <if test="penaltiesResion != null  and penaltiesResion != ''">penalties_resion,</if>
+            <if test="penaltiesAmount != null ">penalties_amount,</if>
+            <if test="penaltiesDate != null ">penalties_date,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="penaltiesName != null  and penaltiesName != ''">#{penaltiesName},</if>
+            <if test="penaltiesDept != null  and penaltiesDept != ''">#{penaltiesDept},</if>
+            <if test="penaltiesType != null  and penaltiesType != ''">#{penaltiesType},</if>
+            <if test="penaltiesResion != null  and penaltiesResion != ''">#{penaltiesResion},</if>
+            <if test="penaltiesAmount != null ">#{penaltiesAmount},</if>
+            <if test="penaltiesDate != null ">#{penaltiesDate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysPenalties" parameterType="SysPenalties">
+        update sys_penalties
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="penaltiesName != null  and penaltiesName != ''">penalties_name = #{penaltiesName},</if>
+            <if test="penaltiesDept != null  and penaltiesDept != ''">penalties_dept = #{penaltiesDept},</if>
+            <if test="penaltiesType != null  and penaltiesType != ''">penalties_type = #{penaltiesType},</if>
+            <if test="penaltiesResion != null  and penaltiesResion != ''">penalties_resion = #{penaltiesResion},</if>
+            <if test="penaltiesAmount != null ">penalties_amount = #{penaltiesAmount},</if>
+            <if test="penaltiesDate != null ">penalties_date = #{penaltiesDate},</if>
+        </trim>
+        where penalties_id = #{penaltiesId}
+    </update>
+
+    <delete id="deleteSysPenaltiesById" parameterType="Long">
+        delete from sys_penalties where penalties_id = #{penaltiesId}
+    </delete>
+
+    <delete id="deleteSysPenaltiesByIds" parameterType="String">
+        delete from sys_penalties where penalties_id in 
+        <foreach item="penaltiesId" collection="array" open="(" separator="," close=")">
+            #{penaltiesId}
+        </foreach>
+    </delete>
+    
+</mapper>
