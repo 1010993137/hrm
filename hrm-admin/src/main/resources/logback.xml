@@ -90,4 +90,6 @@
     <logger name="sys-user" level="info">
         <appender-ref ref="sys-user"/>
     </logger>
+    <!-- 打印sql语句 -->
+    <logger name="com.hrm.system.mapper" level="DEBUG" />
 </configuration> 

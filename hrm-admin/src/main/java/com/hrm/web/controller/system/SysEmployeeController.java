@@ -60,7 +60,7 @@ public class SysEmployeeController extends BaseController
     
     /**
      * 根据名字获取员工信息
-     * @param name
+     * @param employeeName
      * @return 员工
      */
     @GetMapping("/getEmpByName")
