@@ -22,9 +22,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectSysPenaltiesVo"/>
         <where>  
             <if test="penaltiesName != null  and penaltiesName != ''"> and penalties_name like concat('%', #{penaltiesName}, '%')</if>
-            <if test="penaltiesDept != null  and penaltiesDept != ''"> and penalties_dept = #{penaltiesDept}</if>
+            <if test="penaltiesDept != null  and penaltiesDept != ''"> and penalties_dept like concat('%', #{penaltiesDept}, '%')</if>
             <if test="penaltiesType != null  and penaltiesType != ''"> and penalties_type = #{penaltiesType}</if>
-            <if test="penaltiesDate != null "> and penalties_date = #{penaltiesDate}</if>
+            <if test="startTime != null "> and <![CDATA[   penalties_date >= str_to_date(#{startTime},'%Y-%m-%d')]]> </if>
+            <if test="endTime != null "> and <![CDATA[  penalties_date <= str_to_date(#{endTime},'%Y-%m-%d')]]> </if>
         </where>
     </select>
     

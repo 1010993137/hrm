@@ -21,6 +21,8 @@
                             <li>
                                 <p>职位：</p>
                                 <input type="text" name="employeePost"/>
+
+
                             </li>
                             <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
@@ -139,6 +141,7 @@
                     field : 'employeeEntryDate', 
                     title : '入职时间',
                     formatter:function(value,row,index) {
+
                     	return row.employeeEntryDate.substring(0,10);
                     }
                 },
@@ -180,15 +183,14 @@
         
        	/* 计算年龄、工龄 */
        	function getWorkLength(date) {
-       		var aArr = date.substring(0,10).split("-");
-       		var aDate = new Date(aArr[0],aArr[1],aArr[2]);
-       		var bDate = new Date();
-       		var result = (bDate-aDate)/(24*60*60*1000)/365 + "";
-       		return parseInt(result/1);
-       	}
-       	
 
-        
+            var aArr = date.substring(0,10).split("-");
+            var aDate = new Date(aArr[0],aArr[1],aArr[2]);
+            var bDate = new Date();
+            var result = (bDate-aDate)/(24*60*60*1000)/365 + "";
+            return parseInt(result/1);
+
+       	}
 
     </script>
 </body>

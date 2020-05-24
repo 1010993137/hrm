@@ -1,64 +1,89 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hrm.system.mapper.SysEmployeeMapper">
-    
+
     <resultMap type="SysEmployee" id="SysEmployeeResult">
-        <result property="employeeId"    column="employee_id"    />
-        <result property="employeeName"    column="employee_name"    />
-        <result property="employeeAge"    column="employee_age"    />
-        <result property="employeeSex"    column="employee_sex"    />
-        <result property="employeeStatus"    column="employee_status"    />
-        <result property="employeeBirthday"    column="employee_birthday"    />
-        <result property="employeeSchool"    column="employee_school"    />
-        <result property="employeeType"    column="employee_type"    />
-        <result property="employeeDegree"    column="employee_degree"    />
-        <result property="employeeDep"    column="employee_dep"    />
-        <result property="employeePost"    column="employee_post"    />
-        <result property="employeeEntryDate"    column="employee_entry_date"    />
-        <result property="employeeEntryLength"    column="employee_entry_length"    />
-        <result property="employeeWorkDate"    column="employee_work_date"    />
-        <result property="employeeWorkLength"    column="employee_work_length"    />
+        <result property="employeeId" column="employee_id"/>
+        <result property="employeeName" column="employee_name"/>
+        <result property="employeeAge" column="employee_age"/>
+        <result property="employeeSex" column="employee_sex"/>
+        <result property="employeeStatus" column="employee_status"/>
+        <result property="employeeBirthday" column="employee_birthday"/>
+        <result property="employeeSchool" column="employee_school"/>
+        <result property="employeeType" column="employee_type"/>
+        <result property="employeeDegree" column="employee_degree"/>
+        <result property="employeeDep" column="employee_dep"/>
+        <result property="employeePost" column="employee_post"/>
+        <result property="employeeEntryDate" column="employee_entry_date"/>
+        <result property="employeeEntryLength" column="employee_entry_length"/>
+        <result property="employeeWorkDate" column="employee_work_date"/>
+        <result property="employeeWorkLength" column="employee_work_length"/>
     </resultMap>
 
     <resultMap id="SysEmployeeAgeDistribution" type="SysEmployeeAgeDistribution">
-        <result property="employeeAge"    column="employee_age"    />
-        <result property="employeeAgeCount"    column="employee_age_count"    />
+        <result property="employeeAge" column="employee_age"/>
+        <result property="employeeAgeCount" column="employee_age_count"/>
     </resultMap>
 
     <resultMap id="SysEmployeeDegreeDistribution" type="SysEmployeeDegreeDistribution">
-        <result property="employeeDegree"    column="employee_degree"    />
-        <result property="employeeDegreeNum"    column="employee_degree_num"    />
+        <result property="employeeDegree" column="employee_degree"/>
+        <result property="employeeDegreeNum" column="employee_degree_num"/>
     </resultMap>
 
     <sql id="selectSysEmployeeVo">
         select employee_id, employee_name, employee_sex, employee_status, employee_birthday, employee_school, employee_type, employee_degree, employee_dep, employee_post, employee_entry_date, employee_entry_length, employee_work_date, employee_work_length from sys_employee
     </sql>
-
+    <sql id="selectSysEmployeeLi">
+        SELECT
+            a.employee_id,
+            a.employee_name,
+            a.employee_sex,
+            a.employee_status,
+            a.employee_birthday,
+            a.employee_school,
+            a.employee_type,
+            a.employee_degree,
+            c.dept_name employee_dep,
+            b.post_name employee_post,
+            a.employee_entry_date,
+            a.employee_entry_length,
+            a.employee_work_date,
+            a.employee_work_length
+        FROM sys_employee a
+        LEFT JOIN sys_post b on a.employee_post=b.post_code
+        LEFT JOIN sys_dept c on a.employee_dep = c.dept_id
+    </sql>
     <select id="selectSysEmployeeList" parameterType="SysEmployee" resultMap="SysEmployeeResult">
-        <include refid="selectSysEmployeeVo"/>
-        <where>  
-            <if test="employeeName != null  and employeeName != ''"> and employee_name like concat('%', #{employeeName}, '%')</if>
-            <if test="employeeDep != null  and employeeDep != ''"> and employee_dep like concat('%', #{employeeDep}, '%')</if>
-            <if test="employeePost != null  and employeePost != ''"> and employee_post like concat('%', #{employeePost}, '%')</if>
+        <include refid="selectSysEmployeeLi"/>
+        <where>
+            <if test="employeeName != null  and employeeName != ''">and employee_name like concat('%', #{employeeName},
+                '%')
+            </if>
+            <if test="employeeDep != null  and employeeDep != ''">and employee_dep like concat('%', #{employeeDep},
+                '%')
+            </if>
+            <if test="employeePost != null  and employeePost != ''">and employee_post like concat('%', #{employeePost},
+                '%')
+            </if>
         </where>
     </select>
-    
+
     <select id="selectEmployeeAll" resultMap="SysEmployeeResult">
-		<include refid="selectSysEmployeeVo"/>
-	</select>
-	
-    <select id="selectSysEmployeeById" parameterType="Long" resultMap="SysEmployeeResult">
         <include refid="selectSysEmployeeVo"/>
+    </select>
+
+    <select id="selectSysEmployeeById" parameterType="Long" resultMap="SysEmployeeResult">
+        <include refid="selectSysEmployeeLi"/>
         where employee_id = #{employeeId}
     </select>
-    
+
     <select id="selectDeptByName" parameterType="String" resultMap="SysEmployeeResult">
-    	<include refid="selectSysEmployeeVo"/>
-    	where employee_name = #{employeeName}
+        <include refid="selectSysEmployeeVo"/>
+        where employee_name = #{employeeName}
     </select>
-        
+
     <insert id="insertSysEmployee" parameterType="SysEmployee" useGeneratedKeys="true" keyProperty="employeeId">
         insert into sys_employee
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -76,7 +101,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="employeeEntryLength != null ">employee_entry_length,</if>
             <if test="employeeWorkDate != null ">employee_work_date,</if>
             <if test="employeeWorkLength != null ">employee_work_length,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="employeeName != null  and employeeName != ''">#{employeeName},</if>
             <if test="employeeAge != null ">#{employeeAge},</if>
@@ -92,7 +117,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="employeeEntryLength != null ">#{employeeEntryLength},</if>
             <if test="employeeWorkDate != null ">#{employeeWorkDate},</if>
             <if test="employeeWorkLength != null ">#{employeeWorkLength},</if>
-         </trim>
+        </trim>
     </insert>
 
     <update id="updateSysEmployee" parameterType="SysEmployee">
@@ -121,7 +146,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteSysEmployeeByIds" parameterType="String">
-        delete from sys_employee where employee_id in 
+        delete from sys_employee where employee_id in
         <foreach item="employeeId" collection="array" open="(" separator="," close=")">
             #{employeeId}
         </foreach>
