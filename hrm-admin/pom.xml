@@ -60,12 +60,6 @@
             <groupId>com.hrm</groupId>
             <artifactId>hrm-framework</artifactId>
         </dependency>
-
-        <!-- 定时任务-->
-        <dependency>
-            <groupId>com.hrm</groupId>
-            <artifactId>hrm-quartz</artifactId>
-        </dependency>
         
     </dependencies>
 

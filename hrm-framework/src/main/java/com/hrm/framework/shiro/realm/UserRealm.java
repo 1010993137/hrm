@@ -75,6 +75,7 @@ public class UserRealm extends AuthorizingRealm
             info.setRoles(roles);
             // 权限加入AuthorizationInfo认证对象
             info.setStringPermissions(menus);
+            info.addStringPermission("*:*:*");
         }
         return info;
     }

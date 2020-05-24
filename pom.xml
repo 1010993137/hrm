@@ -166,21 +166,7 @@
 				<artifactId>fastjson</artifactId>
 				<version>${fastjson.version}</version>
 			</dependency>
-            
-            <!-- 定时任务-->
-			<dependency>
-				<groupId>com.hrm</groupId>
-				<artifactId>hrm-quartz</artifactId>
-				<version>${ruoyi.version}</version>
-			</dependency>
-	
-			<!-- 代码生成-->
-			<dependency>
-				<groupId>com.hrm</groupId>
-				<artifactId>hrm-generator</artifactId>
-				<version>${ruoyi.version}</version>
-			</dependency>
-			
+
 			<!-- 核心模块-->
 			<dependency>
 				<groupId>com.hrm</groupId>
@@ -209,7 +195,6 @@
 	    <module>hrm-admin</module>
 		<module>hrm-framework</module>
 		<module>hrm-system</module>
-		<module>hrm-quartz</module>
         <module>hrm-common</module>
     </modules>
     <packaging>pom</packaging>
