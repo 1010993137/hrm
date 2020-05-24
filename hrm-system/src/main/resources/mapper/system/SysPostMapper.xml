@@ -52,7 +52,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectPostsByEmployeeId" parameterType="Long" resultMap="SysPostResult">
 		SELECT p.post_id, p.post_name, p.post_code
 		FROM sys_employee e
-			 LEFT JOIN sys_post p ON e.employee_post = p.post_name
+			 LEFT JOIN sys_post p ON e.employee_post = p.post_code
 		WHERE e.employee_id = #{employeeId}
 	</select>
 	

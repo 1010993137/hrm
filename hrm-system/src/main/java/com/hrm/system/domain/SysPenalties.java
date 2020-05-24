@@ -43,6 +43,15 @@ public class SysPenalties extends BaseEntity
     @Excel(name = "奖惩日期", width = 30, dateFormat = "yyyy-MM-dd")
     private Date penaltiesDate;
 
+    /** 奖惩起始日期 */
+    @Excel(name = "起始日期", width = 30, dateFormat = "yyyy-MM-dd")
+    private Date startTime;
+
+    /** 奖惩結束日期 */
+    @Excel(name = "結束日期", width = 30, dateFormat = "yyyy-MM-dd")
+    private Date endTime;
+
+
     public void setPenaltiesId(Long penaltiesId) 
     {
         this.penaltiesId = penaltiesId;
@@ -105,6 +114,22 @@ public class SysPenalties extends BaseEntity
     public Date getPenaltiesDate() 
     {
         return penaltiesDate;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 
     @Override
