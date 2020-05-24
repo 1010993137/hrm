@@ -60,7 +60,7 @@
             <groupId>com.hrm</groupId>
             <artifactId>hrm-framework</artifactId>
         </dependency>
-        
+
     </dependencies>
 
     <build>
