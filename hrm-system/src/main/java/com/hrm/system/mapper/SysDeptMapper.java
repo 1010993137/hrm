@@ -1,6 +1,8 @@
 package com.hrm.system.mapper;
 
 import java.util.List;
+
+import com.hrm.system.domain.SysRole;
 import org.apache.ibatis.annotations.Param;
 import com.hrm.system.domain.SysDept;
 
@@ -105,4 +107,11 @@ public interface SysDeptMapper
      * @return 部门列表
      */
     public List<SysDept> selectChildrenDeptById(Long deptId);
+
+    /**
+     * 根据userId获取该角色负责的部门
+     * @param userId
+     * @return
+     */
+    public List<SysDept> selectDeptByUserId(Long userId);
 }

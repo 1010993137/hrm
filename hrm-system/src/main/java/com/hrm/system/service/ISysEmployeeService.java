@@ -81,29 +81,29 @@ public interface ISysEmployeeService
     /**
      * 查询员工总数
      */
-    public String getEmployeeNum();
+    public String getEmployeeNum(SysEmployee sysEmployee);
 
     /**
      * 查询正式员工数量
      * @return 员工数量
      */
-    public String getFormalEmployeeNum();
+    public String getFormalEmployeeNum(SysEmployee sysEmployee);
 
     /**
      * 查询本月入职员工数量
      * @return 员工数量
      */
-    public String getTisMonthEntryEmployeeNum();
+    public String getTisMonthEntryEmployeeNum(SysEmployee sysEmployee);
 
     /**
      * 获取员工年龄分布情况
      * @return
      */
-    public List<SysEmployeeAgeDistribution> getEmployeeAgeDistribution();
+    public List<SysEmployeeAgeDistribution> getEmployeeAgeDistribution(SysEmployee sysEmployee);
 
     /**
      * 获取员工年学历布情况
      * @return
      */
-    public List<SysEmployeeDegreeDistribution> getEmployeeDegreeDistribution();
+    public List<SysEmployeeDegreeDistribution> getEmployeeDegreeDistribution(SysEmployee sysEmployee);
 }

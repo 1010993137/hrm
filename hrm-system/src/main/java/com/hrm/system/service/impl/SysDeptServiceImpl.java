@@ -79,6 +79,17 @@ public class SysDeptServiceImpl implements ISysDeptService
     }
 
     /**
+     * 根据userId获取该角色下的负责部门
+     * @param userId
+     * @return
+     */
+
+    @Override
+    public List<SysDept> selectDeptByUserId(Long userId) {
+        return deptMapper.selectDeptByUserId(userId);
+    }
+
+    /**
      * 对象转部门树
      *
      * @param deptList 部门列表

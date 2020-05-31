@@ -2,6 +2,13 @@ package com.hrm.web.controller.system;
 
 import java.util.List;
 
+import com.hrm.common.core.domain.Ztree;
+import com.hrm.framework.util.ShiroUtils;
+import com.hrm.system.domain.SysDept;
+import com.hrm.system.domain.SysRole;
+import com.hrm.system.domain.SysUser;
+import com.hrm.system.service.ISysDeptService;
+
 import com.hrm.framework.util.ShiroUtils;
 import com.hrm.system.domain.SysUser;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -39,6 +46,8 @@ public class SysEmployeeController extends BaseController
     private ISysEmployeeService sysEmployeeService;
     @Autowired
     private ISysPostService postService;
+    @Autowired
+    private ISysDeptService sysDeptService;
 
     @RequiresPermissions("system:employee:view")
     @GetMapping()
@@ -57,6 +66,9 @@ public class SysEmployeeController extends BaseController
     public TableDataInfo list(SysEmployee sysEmployee)
     {
         startPage();
+        //获取登录人的负责部门有哪些，用来查询负责的员工
+        List<SysDept> deptList = sysDeptService.selectDeptByUserId(ShiroUtils.getUserId());
+        sysEmployee.setDeptList(deptList);
         List<SysEmployee> list = sysEmployeeService.selectSysEmployeeList(sysEmployee);
         return getDataTable(list);
     }

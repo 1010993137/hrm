@@ -2,6 +2,9 @@ package com.hrm.web.controller.system;
 
 import java.util.List;
 
+import com.hrm.system.domain.SysDept;
+import com.hrm.system.domain.SysEmployee;
+import com.hrm.system.service.ISysDeptService;
 import com.hrm.system.service.ISysEmployeeService;
 import com.hrm.system.service.ISysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +30,8 @@ public class SysIndexController extends BaseController
     private ISysMenuService menuService;
     @Autowired
     private ISysEmployeeService sysEmployeeService;
+    @Autowired
+    private ISysDeptService sysDeptService;
 
     @Autowired
     private ISysUserService userService;
@@ -58,12 +63,16 @@ public class SysIndexController extends BaseController
     @GetMapping("/system/main")
     public String main(ModelMap mmap)
     {
+        //获取登录人的负责部门有哪些，用来查询负责的员工
+        SysEmployee sysEmployee = new SysEmployee();
+        List<SysDept> deptList = sysDeptService.selectDeptByUserId(ShiroUtils.getUserId());
+        sysEmployee.setDeptList(deptList);
         //获取员工总数
-        String employeeNum = sysEmployeeService.getEmployeeNum();
+        String employeeNum = sysEmployeeService.getEmployeeNum(sysEmployee);
         //获取正式员工数量
-        String formalEmployeeNum = sysEmployeeService.getFormalEmployeeNum();
+        String formalEmployeeNum = sysEmployeeService.getFormalEmployeeNum(sysEmployee);
         //获取本月入职人数
-        String thisMonthEntryEmployeeNum = sysEmployeeService.getTisMonthEntryEmployeeNum();
+        String thisMonthEntryEmployeeNum = sysEmployeeService.getTisMonthEntryEmployeeNum(sysEmployee);
         mmap.put("version", Global.getVersion());
         mmap.put("employeeNum",employeeNum);
         mmap.put("formalEmployeeNum",formalEmployeeNum);

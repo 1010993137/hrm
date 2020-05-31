@@ -81,30 +81,30 @@ public interface SysEmployeeMapper
      * 获取员工总数
      * @return 员工总数
      */
-    public String getEmployeeNum();
+    public String getEmployeeNum(SysEmployee sysEmployee);
 
     /**
      * 获取正式员工数量
      * @return 正式员工数量
      */
-    public String getFormalEmployeeNum();
+    public String getFormalEmployeeNum(SysEmployee sysEmployee);
 
     /**
      * 获取本月入职员工数量
      * @return 本月入职员工数量
      */
-    public String getTisMonthEntryEmployeeNum();
+    public String getTisMonthEntryEmployeeNum(SysEmployee sysEmployee);
 
     /**
      * 获取员工年龄分布情况
      * @return
      */
-    public List<SysEmployeeAgeDistribution> getEmployeeAgeDistribution();
+    public List<SysEmployeeAgeDistribution> getEmployeeAgeDistribution(SysEmployee sysEmployee);
 
     /**
      * 获取员工学历分布情况
      * @return 学历分布情况
      */
-    public List<SysEmployeeDegreeDistribution> getEmployeeDegreeDistribution();
+    public List<SysEmployeeDegreeDistribution> getEmployeeDegreeDistribution(SysEmployee sysEmployee);
 
 }

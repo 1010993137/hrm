@@ -70,6 +70,12 @@
             <if test="employeePost != null  and employeePost != ''">and employee_post like concat('%', #{employeePost},
                 '%')
             </if>
+            <if test="deptList != null">
+                and employee_dep in
+                <foreach collection="deptList" item="deptList" separator="," open="(" close=")">
+                    #{deptList.deptId}
+                </foreach>
+            </if>
         </where>
     </select>
 
@@ -155,21 +161,49 @@
         </foreach>
     </delete>
 
-    <select id="getEmployeeNum" parameterType="java.lang.String" resultType="string">
-        select count(*) from sys_employee where employee_status = '0'
+    <select id="getEmployeeNum" parameterType="SysEmployee" resultType="string">
+        select count(*) from sys_employee
+        <where>
+            employee_status = '0'
+            <if test="deptList != null">
+                and employee_dep in
+                <foreach collection="deptList" item="deptList" separator="," open="(" close=")">
+                    #{deptList.deptId}
+                </foreach>
+            </if>
+        </where>
     </select>
 
-    <select id="getFormalEmployeeNum" parameterType="java.lang.String" resultType="string">
-        select count(*) from sys_employee where employee_status = '0' and employee_type='1'
+    <select id="getFormalEmployeeNum" parameterType="SysEmployee" resultType="string">
+        select count(*) from sys_employee
+        <where>
+            employee_status = '0' and employee_type='1'
+            <if test="deptList != null">
+                and employee_dep in
+                <foreach collection="deptList" item="deptList" separator="," open="(" close=")">
+                    #{deptList.deptId}
+                </foreach>
+            </if>
+        </where>
     </select>
 
-    <select id="getTisMonthEntryEmployeeNum" parameterType="java.lang.String" resultType="string">
-        SELECT COUNT(1) FROM sys_employee WHERE SUBSTR(employee_entry_date,1,7) = SUBSTR(CURDATE(),1,7) and employee_status = '0'
+    <select id="getTisMonthEntryEmployeeNum" parameterType="SysEmployee" resultType="string">
+        SELECT COUNT(1) FROM sys_employee
+        <where>
+            SUBSTR(employee_entry_date,1,7) = SUBSTR(CURDATE(),1,7) and employee_status = '0'
+            <if test="deptList != null">
+                and employee_dep in
+                <foreach collection="deptList" item="deptList" separator="," open="(" close=")">
+                    #{deptList.deptId}
+                </foreach>
+            </if>
+        </where>
     </select>
 
-    <select id="getEmployeeAgeDistribution" resultMap="SysEmployeeAgeDistribution">
+    <!--获取年龄分布情况-->
+    <select id="getEmployeeAgeDistribution" resultMap="SysEmployeeAgeDistribution" parameterType="SysEmployee">
         SELECT
-            CASE
+        CASE
         WHEN YEAR (NOW()) - YEAR (employee_birthday) BETWEEN 0 AND 19 THEN '20以下'
         WHEN YEAR (NOW()) - YEAR (employee_birthday) BETWEEN 20 AND 25 THEN '21-25'
         WHEN YEAR (NOW()) - YEAR (employee_birthday) BETWEEN 26 AND 30 THEN '26-30'
@@ -181,27 +215,47 @@
         END AS employee_age,
         COUNT(*) as employee_age_count
         FROM
-            sys_employee
+        sys_employee
+        <where>
+            employee_status = '0'
+            <if test="deptList != null">
+                and employee_dep in
+                <foreach collection="deptList" item="deptList" separator="," open="(" close=")">
+                    #{deptList.deptId}
+                </foreach>
+            </if>
+        </where>
         GROUP BY employee_age
     </select>
-    <select id="getEmployeeDegreeDistribution" resultMap="SysEmployeeDegreeDistribution">
+
+    <!--获取学历分布情况-->
+    <select id="getEmployeeDegreeDistribution" resultMap="SysEmployeeDegreeDistribution" parameterType="SysEmployee">
         SELECT
-            CASE
+        CASE
         WHEN employee_degree = '1' THEN
-            '大专'
+        '大专'
         WHEN employee_degree = '2' THEN
-            '本科'
+        '本科'
         WHEN employee_degree = '3' THEN
-            '研究生'
+        '研究生'
         WHEN employee_degree = '4' THEN
-            '博士生'
+        '博士生'
         ELSE
-            '其他'
+        '其他'
         END AS employee_degree,
-         COUNT(*) AS employee_degree_num
+        COUNT(*) AS employee_degree_num
         FROM
-            sys_employee
+        sys_employee
+        <where>
+            employee_status = '0'
+            <if test="deptList != null">
+                and employee_dep in
+                <foreach collection="deptList" item="deptList" separator="," open="(" close=")">
+                    #{deptList.deptId}
+                </foreach>
+            </if>
+        </where>
         GROUP BY
-	employee_degree
+        employee_degree
     </select>
 </mapper>

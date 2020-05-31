@@ -117,8 +117,8 @@ public class SysEmployeeServiceImpl implements ISysEmployeeService {
      * @return 员工总数
      */
     @Override
-    public String getEmployeeNum() {
-        return sysEmployeeMapper.getEmployeeNum();
+    public String getEmployeeNum(SysEmployee sysEmployee) {
+        return sysEmployeeMapper.getEmployeeNum(sysEmployee);
     }
 
     /**
@@ -126,8 +126,8 @@ public class SysEmployeeServiceImpl implements ISysEmployeeService {
      * @return 员工数量
      */
     @Override
-    public String getFormalEmployeeNum() {
-        return sysEmployeeMapper.getFormalEmployeeNum();
+    public String getFormalEmployeeNum(SysEmployee sysEmployee) {
+        return sysEmployeeMapper.getFormalEmployeeNum(sysEmployee);
     }
 
     /**
@@ -135,8 +135,8 @@ public class SysEmployeeServiceImpl implements ISysEmployeeService {
      * @return 本月入职员工数量
      */
     @Override
-    public String getTisMonthEntryEmployeeNum() {
-        return sysEmployeeMapper.getTisMonthEntryEmployeeNum();
+    public String getTisMonthEntryEmployeeNum(SysEmployee sysEmployee) {
+        return sysEmployeeMapper.getTisMonthEntryEmployeeNum(sysEmployee);
     }
 
     /**
@@ -144,13 +144,13 @@ public class SysEmployeeServiceImpl implements ISysEmployeeService {
      * @return 员工年龄分布情况
      */
     @Override
-    public List<SysEmployeeAgeDistribution> getEmployeeAgeDistribution() {
-        return sysEmployeeMapper.getEmployeeAgeDistribution();
+    public List<SysEmployeeAgeDistribution> getEmployeeAgeDistribution(SysEmployee sysEmployee) {
+        return sysEmployeeMapper.getEmployeeAgeDistribution(sysEmployee);
     }
 
     @Override
-    public List<SysEmployeeDegreeDistribution> getEmployeeDegreeDistribution() {
-        return sysEmployeeMapper.getEmployeeDegreeDistribution();
+    public List<SysEmployeeDegreeDistribution> getEmployeeDegreeDistribution(SysEmployee sysEmployee) {
+        return sysEmployeeMapper.getEmployeeDegreeDistribution(sysEmployee);
     }
 
 }
