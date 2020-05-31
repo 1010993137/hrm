@@ -42,7 +42,7 @@ public class SysChartsController extends BaseController {
     }
 
     /**
-     * 获取员工年龄分布情况
+     * 获取员工年龄分布情况。
      * @return 员工年龄分布情况
      */
     @ResponseBody
