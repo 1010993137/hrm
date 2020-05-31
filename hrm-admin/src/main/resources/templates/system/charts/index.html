@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--360浏览器优先以webkit内核解析-->
+    <title>数据分析</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="../static/css/bootstrap.min.css"
+          th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link href="../static/css/font-awesome.min.css"
+          th:href="@{/css/font-awesome.min.css}" rel="stylesheet"/>
+    <link href="../static/css/main/animate.min.css"
+          th:href="@{/css/main/animate.min.css}" rel="stylesheet"/>
+    <link href="../static/css/main/style.min862f.css"
+          th:href="@{/css/main/style.min862f.css}" rel="stylesheet"/>
+</head>
+
+<body class="gray-bg">
+<div class="row">&nbsp;</div>
+<div class="row">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-10">
+        <div class="panel panel-default" style="height: 500px;">
+            <div class="panel-body" style="height: 500px;width: 100%" id="chart">
+
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-1"></div>
+</div>
+
+
+</body>
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/ajax/libs/layer/layer.min.js}"></script>
+<script th:src="@{/js/echarts.js}"></script>
+<script>
+    $(function () {
+        getResignationNumAndPostNum();
+    });
+
+    //加载职位需求数量和离职统计
+    function getResignationNumAndPostNum() {
+        $.ajax({
+            url: "/charts/getResignationNumAndPostNum",
+            method: "GET",
+            datatype: "json",
+            success: function (res) {
+                console.log(JSON.stringify(res));
+                var arr1 = [];
+                var arr2 = [];
+                var arr3 = [];
+                var arr4 = [];
+                var arrData1 = [];
+                var arrData2 = [];
+                var resignationCount = 0;
+                var postCount = 0;
+
+                for (var i = 0; i < res.resignationNum.length; i++) {
+                    arr1.push(res.resignationNum[i].deptName);
+                    arr2.push({value: res.resignationNum[i].resignationNum, name: res.resignationNum[i].deptName});
+                    arrData1.push(res.resignationNum[i].resignationNum);
+                    resignationCount += Number(res.resignationNum[i].resignationNum);
+                }
+                for (var i = 0; i < res.postNum.length; i++) {
+                    arr3.push(res.postNum[i].postRecruitName);
+                    arr4.push({value: res.postNum[i].postNum, name: res.postNum[i].postRecruitName});
+                    arrData2.push(res.postNum[i].postNum);
+                    postCount += Number(res.postNum[i].postNum);
+                }
+
+                var chart = echarts.init(document.getElementById('chart'));
+                option = {
+                    baseOption: {
+                        timeline: {
+                            axisType: 'category',
+                            autoPlay: true,
+                            symbolSize: 10,
+                            playInterval: 4000,
+                            left: '5%',
+                            right: '5%',
+                            bottom: '0%',
+                            label: {
+                                normal: {
+                                    color: '#fff',
+                                    fontSize: 15,
+                                }
+                            },
+                            lineStyle: {
+                                color: "#0b4e86"
+                            },
+                            itemStyle: {
+                                normal: {
+                                    color: '#f00',
+                                    borderColor: "#00aeff",
+                                    borderWidth: 2
+                                }
+
+                            },
+                            checkpointStyle: {
+                                symbolSize: 16
+                            },
+                            controlStyle: {
+                                showPlayBtn: false
+                            },
+                            data: ['离职情况', '职位需求情况'],
+                        },
+                        title: [{
+                            text: "{white| 迁转省份目标}\n{bigWhite| 94}",
+                            left: 'center',
+                            top: '18%',
+                            textStyle: {
+                                align: 'center',
+                                rich: {
+                                    white: {
+                                        color: "#fff",
+                                        fontSize: 16,
+                                        padding: [10, 0]
+                                    },
+                                    bigWhite: {
+                                        color: "#fff",
+                                        fontSize: 22
+                                    }
+                                }
+                            }
+                        }],
+                        calculable: true,
+                        grid: {
+                            top: '53%',
+                            bottom: '18%',
+                            containLabel: true
+                        },
+                        backgroundColor: "#01334d",
+                        tooltip: {
+                            trigger: 'axis',
+                            axisPointer: { // 坐标轴指示器，坐标轴触发有效
+                                type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+                            }
+                        },
+                        xAxis: [{
+                            type: 'value',
+                            boundaryGap: [0, 0.01],
+                            axisLabel: {
+                                color: '#fff',
+                                fontSize: 12
+                            },
+                            axisLine: {
+                                show: true,
+                                lineStyle: {
+                                    color: "#084a7b"
+                                }
+                            },
+                            axisTick: {
+                                show: true,
+                                lineStyle: {
+                                    color: "#084a7b"
+                                }
+                            },
+                            splitLine: {
+                                show: false
+                            },
+                        }],
+                        yAxis: [{
+                            'type': 'category',
+                            axisLabel: {
+                                color: '#fff',
+                                fontSize: 12
+                            },
+                            axisLine: {
+                                show: true,
+                                lineStyle: {
+                                    color: "#084a7b"
+                                }
+                            },
+                            axisTick: {
+                                show: true,
+                                lineStyle: {
+                                    color: "#084a7b"
+                                }
+                            },
+                            splitLine: {
+                                show: false
+                            },
+                            'data': ['光纤交换机', '交换机', '路由器']
+                        }],
+                        series: [{
+                            name: '生产量',
+                            type: 'bar',
+                            itemStyle: {
+                                normal: {
+                                    color: new echarts.graphic.LinearGradient(
+                                        1, 0, 0, 0, [{
+                                            offset: 0,
+                                            color: '#edf094'
+                                        },
+                                            {
+                                                offset: 1,
+                                                color: '#21b4f6'
+                                            }
+                                        ]
+                                    ),
+                                    barBorderRadius: 0
+                                }
+                            },
+                            label: {
+                                normal: {
+                                    show: true,
+                                    position: 'right',
+                                    formatter: '{c}',
+                                    textStyle: {
+                                        fontSize: 16,
+                                        color: "#fff"
+                                    }
+                                }
+                            },
+                        }, {
+                            name: '生产量占比',
+                            type: 'pie',
+                            label: {
+                                normal: {
+                                    show: true,
+                                    position: 'outside',
+                                    formatter: '{b} : {c} ',
+                                    textStyle: {
+                                        fontSize: 16
+                                    }
+                                }
+                            },
+                            color: ['#3acad2', '#51eab2', '#f8f38d'],
+                            radius: ['25%', '38%'],
+                            center: ['50%', '25%'],
+                        }]
+                    },
+                    options: [{
+                        title: {
+                            text: "{white| 近三月离职总数}\n{bigWhite| "+resignationCount+"}",
+                        },
+                        yAxis: [{
+                            'data': arr1
+                        }],
+                        series: [{
+                            data: arrData1
+                        }, {
+                            data: arr2
+                        }]
+                    },
+                        {
+                            title: {
+                                text: "{white| 职位需求总数}\n{bigWhite| "+postCount+"}",
+                            },
+                            yAxis: [{
+                                'data': arr3
+                            }],
+                            series: [{
+                                data: arrData2
+                            }, {
+                                data: arr4
+                            }]
+                        }
+                    ]
+                };
+                chart.setOption(option);
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    };
+
+</script>
+</html>

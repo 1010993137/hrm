@@ -22,6 +22,7 @@
         <result property="employeeWorkLength" column="employee_work_length"/>
         <result property="userDeptId" column="userDeptId"/>
         <result property="deptName" column="dept_name"/>
+        <result property="employeeResignationDate" column="employee_resignation_date"/>
     </resultMap>
 
     <resultMap id="SysEmployeeAgeDistribution" type="SysEmployeeAgeDistribution">
@@ -37,29 +38,6 @@
     <sql id="selectSysEmployeeVo">
         select employee_id, employee_name, employee_sex, employee_status, employee_birthday, employee_school, employee_type, employee_degree, employee_dep, employee_post, employee_entry_date, employee_entry_length, employee_work_date, employee_work_length from sys_employee
     </sql>
-
-    <sql id="selectSysEmployeeVoSe">
-        SELECT
-            a.employee_id,
-            a.employee_name,
-            a.employee_sex,
-            a.employee_status,
-            a.employee_birthday,
-            a.employee_school,
-            a.employee_type,
-            a.employee_degree,
-            a.employee_dep,
-            a.employee_post,
-            a.employee_entry_date,
-            a.employee_entry_length,
-            a.employee_work_date,
-            a.employee_work_length,
-            b.dept_name
-        FROM
-            sys_employee a
-        LEFT JOIN sys_dept b on a.employee_dep=b.dept_id
-    </sql>
-
     <sql id="selectSysEmployeeLi">
         SELECT
             a.employee_id,
@@ -80,8 +58,6 @@
         LEFT JOIN sys_post b on a.employee_post=b.post_code
         LEFT JOIN sys_dept c on a.employee_dep = c.dept_id
     </sql>
-
-
     <select id="selectSysEmployeeList" parameterType="SysEmployee" resultMap="SysEmployeeResult">
         <include refid="selectSysEmployeeLi"/>
         <where>
@@ -105,11 +81,12 @@
 
     <select id="selectEmployeeAll" resultMap="SysEmployeeResult">
         <include refid="selectSysEmployeeVo"/>
+        where employee_status = '0'
     </select>
 
     <select id="selectSysEmployeeById" parameterType="Long" resultMap="SysEmployeeResult">
         <include refid="selectSysEmployeeLi"/>
-        where employee_id = #{employeeId}
+        where employee_id = #{employeeId} and employee_status = '0'
     </select>
 
     <select id="selectDeptById" parameterType="integer" resultMap="SysEmployeeResult">
@@ -178,12 +155,12 @@
         delete from sys_employee where employee_id = #{employeeId}
     </delete>
 
-    <delete id="deleteSysEmployeeByIds" parameterType="String">
-        delete from sys_employee where employee_id in
+    <update id="deleteSysEmployeeByIds" parameterType="String">
+        update sys_employee set employee_status = '1',employee_resignation_date = CURDATE() where employee_id in
         <foreach item="employeeId" collection="array" open="(" separator="," close=")">
             #{employeeId}
         </foreach>
-    </delete>
+    </update>
 
     <select id="getEmployeeNum" parameterType="SysEmployee" resultType="string">
         select count(*) from sys_employee
