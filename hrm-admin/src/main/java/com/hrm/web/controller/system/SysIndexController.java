@@ -3,6 +3,7 @@ package com.hrm.web.controller.system;
 import java.util.List;
 
 import com.hrm.system.service.ISysEmployeeService;
+import com.hrm.system.service.ISysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -27,6 +28,9 @@ public class SysIndexController extends BaseController
     @Autowired
     private ISysEmployeeService sysEmployeeService;
 
+    @Autowired
+    private ISysUserService userService;
+
     // 系统首页
     @GetMapping("/index")
     public String index(ModelMap mmap)
@@ -37,6 +41,7 @@ public class SysIndexController extends BaseController
         List<SysMenu> menus = menuService.selectMenusByUser(user);
         mmap.put("menus", menus);
         mmap.put("user", user);
+        mmap.put("postGroup", userService.selectUserPostGroup(user.getUserId()));
         mmap.put("copyrightYear", Global.getCopyrightYear());
         mmap.put("demoEnabled", Global.isDemoEnabled());
         return "index";

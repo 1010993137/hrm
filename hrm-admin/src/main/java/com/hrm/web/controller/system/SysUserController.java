@@ -29,7 +29,7 @@ import com.hrm.system.service.ISysUserService;
 /**
  * 用户信息
  * 
- * @author ruoyi
+ * @author gaoyang
  */
 @Controller
 @RequestMapping("/system/user")

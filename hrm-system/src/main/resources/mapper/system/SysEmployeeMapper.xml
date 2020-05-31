@@ -20,6 +20,7 @@
         <result property="employeeEntryLength" column="employee_entry_length"/>
         <result property="employeeWorkDate" column="employee_work_date"/>
         <result property="employeeWorkLength" column="employee_work_length"/>
+        <result property="userDeptId" column="userDeptId"/>
     </resultMap>
 
     <resultMap id="SysEmployeeAgeDistribution" type="SysEmployeeAgeDistribution">
@@ -55,6 +56,8 @@
         LEFT JOIN sys_post b on a.employee_post=b.post_code
         LEFT JOIN sys_dept c on a.employee_dep = c.dept_id
     </sql>
+
+
     <select id="selectSysEmployeeList" parameterType="SysEmployee" resultMap="SysEmployeeResult">
         <include refid="selectSysEmployeeLi"/>
         <where>

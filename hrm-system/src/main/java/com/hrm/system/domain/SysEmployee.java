@@ -75,6 +75,10 @@ public class SysEmployee extends BaseEntity
     @Excel(name = "参加工作工龄")
     private Long employeeWorkLength;
 
+    /** 登录人机构ID */
+    @Excel(name = "登录人机构ID")
+    private Long userDeptId;
+
     public void setEmployeeId(Long employeeId) 
     {
         this.employeeId = employeeId;
@@ -210,6 +214,14 @@ public class SysEmployee extends BaseEntity
     public Long getEmployeeWorkLength() 
     {
         return employeeWorkLength;
+    }
+
+    public Long getUserDeptId() {
+        return userDeptId;
+    }
+
+    public void setUserDeptId(Long userDeptId) {
+        this.userDeptId = userDeptId;
     }
 
     @Override

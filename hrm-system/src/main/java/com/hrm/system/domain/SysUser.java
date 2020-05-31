@@ -83,6 +83,9 @@ public class SysUser extends BaseEntity
         @Excel(name = "部门名称", targetAttr = "deptName", type = Type.EXPORT),
         @Excel(name = "部门负责人", targetAttr = "leader", type = Type.EXPORT)
     })
+
+
+
     private SysDept dept;
 
     private List<SysRole> roles;
@@ -92,6 +95,10 @@ public class SysUser extends BaseEntity
 
     /** 岗位组 */
     private Long[] postIds;
+
+    /** 登录人的机构名称 */
+    private String deptName;
+
 
     public SysUser()
     {
@@ -321,6 +328,14 @@ public class SysUser extends BaseEntity
     public void setPostIds(Long[] postIds)
     {
         this.postIds = postIds;
+    }
+
+    public String getDeptName() {
+        return deptName;
+    }
+
+    public void setDeptName(String deptName) {
+        this.deptName = deptName;
     }
 
     @Override

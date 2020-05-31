@@ -95,6 +95,8 @@
 						<a href="javascript:void(0)" class="dropdown-toggle" data-hover="dropdown">
 							<img th:src="(${user.avatar} == '') ? @{/img/profile.jpg} : @{${user.avatar}}" class="user-image">
 							<span class="hidden-xs">[[${user.userName}]]</span>
+                            <span class="hidden-xs" id="userDeptId" >[[${user.deptId}]]</span>
+                            <span class="hidden-xs">[[${user.dept?.deptName}]] / [[${#strings.defaultString(postGroup,'无岗位')}]]</span>
 						</a>
 						<ul class="dropdown-menu">
 							<li class="mt5">
