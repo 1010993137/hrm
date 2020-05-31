@@ -75,13 +75,13 @@ public class SysEmployeeController extends BaseController
     
     /**
      * 根据名字获取员工信息
-     * @param employeeName
+     * @param employeeId
      * @return 员工
      */
-    @GetMapping("/getEmpByName")
+    @GetMapping("/getEmpById")
     @ResponseBody
-    public SysEmployee getEmployeeByName(String employeeName) {
-    	SysEmployee list = sysEmployeeService.selectDeptByName(employeeName);
+    public SysEmployee getEmployeeById(int employeeId) {
+    	SysEmployee list = sysEmployeeService.selectDeptById(employeeId);
 		return list;
     }
 

@@ -23,6 +23,10 @@ public class SysPenalties extends BaseEntity
     @Excel(name = "姓名")
     private String penaltiesName;
 
+    /** 员工ID */
+    @Excel(name = "员工ID")
+    private String penaltiesEmpId;
+
     /** 部门 */
     @Excel(name = "部门")
     private String penaltiesDept;
@@ -66,7 +70,15 @@ public class SysPenalties extends BaseEntity
         this.penaltiesName = penaltiesName;
     }
 
-    public String getPenaltiesName() 
+    public String getPenaltiesEmpId() {
+        return penaltiesEmpId;
+    }
+
+    public void setPenaltiesEmpId(String penaltiesEmpId) {
+        this.penaltiesEmpId = penaltiesEmpId;
+    }
+
+    public String getPenaltiesName()
     {
         return penaltiesName;
     }

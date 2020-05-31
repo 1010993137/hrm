@@ -6,7 +6,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <resultMap type="SysPenalties" id="SysPenaltiesResult">
         <result property="penaltiesId"    column="penalties_id"    />
-        <result property="penaltiesName"    column="penalties_name"    />
+        <result property="penaltiesEmpId"    column="penalties_employee_id"    />
+        <result property="penaltiesName"    column="employee_name"    />
         <result property="penaltiesDept"    column="penalties_dept"    />
         <result property="penaltiesType"    column="penalties_type"    />
         <result property="penaltiesResion"    column="penalties_resion"    />
@@ -15,13 +16,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectSysPenaltiesVo">
-        select penalties_id, penalties_name, penalties_dept, penalties_type, penalties_resion, penalties_amount, penalties_date from sys_penalties
+        SELECT
+            a.penalties_id,
+            b.employee_name,
+            a.penalties_dept,
+            a.penalties_type,
+            a.penalties_resion,
+            a.penalties_amount,
+            a.penalties_date
+        FROM
+            sys_penalties a
+        LEFT JOIN sys_employee b on a.penalties_employee_id=b.employee_id
     </sql>
 
     <select id="selectSysPenaltiesList" parameterType="SysPenalties" resultMap="SysPenaltiesResult">
         <include refid="selectSysPenaltiesVo"/>
         <where>  
-            <if test="penaltiesName != null  and penaltiesName != ''"> and penalties_name like concat('%', #{penaltiesName}, '%')</if>
+            <if test="penaltiesName != null  and penaltiesName != ''"> and employee_name like concat('%', #{penaltiesName}, '%')</if>
             <if test="penaltiesDept != null  and penaltiesDept != ''"> and penalties_dept like concat('%', #{penaltiesDept}, '%')</if>
             <if test="penaltiesType != null  and penaltiesType != ''"> and penalties_type = #{penaltiesType}</if>
             <if test="startTime != null "> and <![CDATA[   penalties_date >= str_to_date(#{startTime},'%Y-%m-%d')]]> </if>
@@ -37,7 +48,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <insert id="insertSysPenalties" parameterType="SysPenalties" useGeneratedKeys="true" keyProperty="penaltiesId">
         insert into sys_penalties
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="penaltiesName != null  and penaltiesName != ''">penalties_name,</if>
+            <if test="penaltiesEmpId != null  and penaltiesEmpId != ''">penalties_employee_id,</if>
             <if test="penaltiesDept != null  and penaltiesDept != ''">penalties_dept,</if>
             <if test="penaltiesType != null  and penaltiesType != ''">penalties_type,</if>
             <if test="penaltiesResion != null  and penaltiesResion != ''">penalties_resion,</if>
@@ -45,7 +56,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="penaltiesDate != null ">penalties_date,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="penaltiesName != null  and penaltiesName != ''">#{penaltiesName},</if>
+            <if test="penaltiesEmpId != null  and penaltiesEmpId != ''">#{penaltiesEmpId},</if>
             <if test="penaltiesDept != null  and penaltiesDept != ''">#{penaltiesDept},</if>
             <if test="penaltiesType != null  and penaltiesType != ''">#{penaltiesType},</if>
             <if test="penaltiesResion != null  and penaltiesResion != ''">#{penaltiesResion},</if>
@@ -57,7 +68,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <update id="updateSysPenalties" parameterType="SysPenalties">
         update sys_penalties
         <trim prefix="SET" suffixOverrides=",">
-            <if test="penaltiesName != null  and penaltiesName != ''">penalties_name = #{penaltiesName},</if>
+            <if test="penaltiesEmpId != null  and penaltiesEmpId != ''">penalties_employee_id = #{penaltiesEmpId},</if>
             <if test="penaltiesDept != null  and penaltiesDept != ''">penalties_dept = #{penaltiesDept},</if>
             <if test="penaltiesType != null  and penaltiesType != ''">penalties_type = #{penaltiesType},</if>
             <if test="penaltiesResion != null  and penaltiesResion != ''">penalties_resion = #{penaltiesResion},</if>

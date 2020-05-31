@@ -103,13 +103,13 @@ public class SysEmployeeServiceImpl implements ISysEmployeeService {
     /**
      * 根据姓名查询部门
      *
-     * @param employeeName 员工姓名
+     * @param employeeId 员工ID
      * @return 部门信息
      */
     @Override
-    public SysEmployee selectDeptByName(String employeeName) {
+    public SysEmployee selectDeptById(int employeeId) {
         // TODO Auto-generated method stub
-        return sysEmployeeMapper.selectDeptByName(employeeName);
+        return sysEmployeeMapper.selectDeptById(employeeId);
     }
 
     /**

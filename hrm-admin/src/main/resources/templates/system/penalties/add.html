@@ -65,8 +65,8 @@
         function submitHandler() {
             if ($.validate.form()) {
                 var data = $("#form-penalties-add").serializeArray();
-            	var penaltiesName = $("#employee").find("option:selected").text();
-	        	data.push({"name": "penaltiesName", "value": penaltiesName});
+            	var penaltiesEmpId = $("#employee").find("option:selected").val();
+	        	data.push({"name": "penaltiesEmpId", "value": penaltiesEmpId});
                 $.operate.save(prefix + "/add", data);
             }
         }
@@ -83,27 +83,27 @@
                 allowClear: true
             });
             
-			getEmpByName($("#employee").find("option:selected").text())
+			getEmpById($("#employee").find("option:selected").val())
 			
 			})
 		
 		//改变姓名监听事件
 		$('#employee').on('select2:select', function (e) {
-			getEmpByName(e.params.data.text);
+			getEmpById(e.params.data.id);
 		});
 			
 			
 		//根据名字获取岗位方法
-		function getEmpByName(name){
+		function getEmpById(id){
         	$.ajax({
-				url : ctx + "system/employee/getEmpByName",
+				url : ctx + "system/employee/getEmpById",
 				type : 'get',
 				data : {
-					"employeeName" : name
+					"employeeId" : id
 				},
 				dataType : 'json',
 				success : function(ret) {
-					$("#penaltiesDept").val(ret.employeeDep);
+					$("#penaltiesDept").val(ret.deptName);
 				},
 				error : function() {
 					alert("An error occurred!");

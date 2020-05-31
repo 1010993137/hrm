@@ -137,4 +137,5 @@ public class SysSalaryController extends BaseController
     {
         return toAjax(sysSalaryService.deleteSysSalaryByIds(ids));
     }
+
 }

@@ -73,10 +73,10 @@ public interface ISysEmployeeService
     /**
      * 根据姓名查询部门
      * 
-     * @param employeeName 员工姓名
+     * @param employeeId 员工姓名
      * @return 部门信息
      */
-    public SysEmployee selectDeptByName(String employeeName);
+    public SysEmployee selectDeptById(int employeeId);
 
     /**
      * 查询员工总数

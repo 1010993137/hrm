@@ -21,16 +21,22 @@ public class SysSalary extends BaseEntity
     private Long salaryId;
 
     /** 姓名 */
-    @Excel(name = "姓名")
-    private String salaryName;
+    @Excel(name = "员工Id")
+    private int salaryEmpId;
 
     /** 部门 */
-    @Excel(name = "部门")
+    @Excel(name = "部门Id")
     private String salaryDept;
+
 
     /** 底薪 */
     @Excel(name = "底薪")
     private Long salaryAmount;
+
+
+    /** 员工姓名 */
+    @Excel(name = "员工姓名")
+    private String salaryEmpName;
 
     /** 登录人管理结构 */
     private List<SysDept> deptList;
@@ -44,25 +50,32 @@ public class SysSalary extends BaseEntity
     {
         return salaryId;
     }
-    public void setSalaryName(String salaryName) 
-    {
-        this.salaryName = salaryName;
+
+    public String getSalaryEmpName() {
+        return salaryEmpName;
     }
 
-    public String getSalaryName() 
-    {
-        return salaryName;
+    public void setSalaryEmpName(String salaryEmpName) {
+        this.salaryEmpName = salaryEmpName;
     }
-    public void setSalaryDept(String salaryDept) 
-    {
+
+    public int getSalaryEmpId() {
+        return salaryEmpId;
+    }
+
+    public String getSalaryDept() {
+        return salaryDept;
+    }
+
+    public void setSalaryDept(String salaryDept) {
         this.salaryDept = salaryDept;
     }
 
-    public String getSalaryDept() 
-    {
-        return salaryDept;
+    public void setSalaryEmpId(int salaryEmpId) {
+        this.salaryEmpId = salaryEmpId;
     }
-    public void setSalaryAmount(Long salaryAmount) 
+
+    public void setSalaryAmount(Long salaryAmount)
     {
         this.salaryAmount = salaryAmount;
     }
@@ -84,8 +97,6 @@ public class SysSalary extends BaseEntity
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("salaryId", getSalaryId())
-            .append("salaryName", getSalaryName())
-            .append("salaryDept", getSalaryDept())
             .append("salaryAmount", getSalaryAmount())
             .toString();
     }

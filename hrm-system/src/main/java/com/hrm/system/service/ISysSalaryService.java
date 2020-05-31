@@ -26,7 +26,6 @@ public interface ISysSalaryService
      * @return 薪资管理集合
      */
     public List<SysSalary> selectSysSalaryList(SysSalary sysSalary);
-
     /**
      * 新增薪资管理
      * 
@@ -58,4 +57,6 @@ public interface ISysSalaryService
      * @return 结果
      */
     public int deleteSysSalaryById(Long salaryId);
+
+
 }

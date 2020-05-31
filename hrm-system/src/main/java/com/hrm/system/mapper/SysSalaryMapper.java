@@ -58,4 +58,6 @@ public interface SysSalaryMapper
      * @return 结果
      */
     public int deleteSysSalaryByIds(String[] salaryIds);
+
+
 }

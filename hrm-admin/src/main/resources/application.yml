@@ -12,6 +12,16 @@ ruoyi:
   profile: D:/ruoyi/uploadPath
   # 获取ip地址开关
   addressEnabled: true
+  #MySQL数据库所在服务器地址IP
+  hostIP: 121.199.30.57
+  #进入数据库所需要的用户名
+  userName: root
+  #进入数据库所需要的密码
+  password: hou184165
+  #数据库导出文件保存路径
+  savePath: D:/backupDatabase
+  #要导出的数据库名
+  databaseName: hrm
 
 # 开发环境配置
 server:

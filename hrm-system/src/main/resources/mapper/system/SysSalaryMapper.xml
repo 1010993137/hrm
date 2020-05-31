@@ -6,19 +6,30 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <resultMap type="SysSalary" id="SysSalaryResult">
         <result property="salaryId"    column="salary_id"    />
-        <result property="salaryName"    column="salary_name"    />
+        <result property="salaryEmpId"    column="salary_employee_id"    />
         <result property="salaryDept"    column="salary_dept"    />
         <result property="salaryAmount"    column="salary_amount"    />
+        <result property="salaryEmpName"    column="employee_name"    />
     </resultMap>
 
     <sql id="selectSysSalaryVo">
-        select salary_id, salary_name, salary_dept, salary_amount from sys_salary
+        SELECT
+            a.salary_id,
+            a.salary_employee_id,
+            b.employee_name,
+            a.salary_dept,
+            a.salary_amount
+        FROM
+            sys_salary a
+        LEFT JOIN sys_employee b on a.salary_employee_id = b.employee_id
     </sql>
 
     <select id="selectSysSalaryList" parameterType="SysSalary" resultMap="SysSalaryResult">
         <include refid="selectSysSalaryVo"/>
-        <where>  
-            <if test="salaryName != null  and salaryName != ''"> and salary_name like concat('%', #{salaryName}, '%')</if>
+        <where>
+            <if test="salaryEmpName != null  and salaryEmpName != ''">employee_name like  concat('%', #{salaryEmpName},
+                '%')
+            </if>
         </where>
     </select>
     
@@ -30,12 +41,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <insert id="insertSysSalary" parameterType="SysSalary" useGeneratedKeys="true" keyProperty="salaryId">
         insert into sys_salary
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="salaryName != null  and salaryName != ''">salary_name,</if>
+            <if test="salaryEmpId != null  and salaryEmpId != ''">salary_employee_id,</if>
             <if test="salaryDept != null  and salaryDept != ''">salary_dept,</if>
             <if test="salaryAmount != null ">salary_amount,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="salaryName != null  and salaryName != ''">#{salaryName},</if>
+            <if test="salaryEmpId != null  and salaryEmpId != ''">#{salaryEmpId},</if>
             <if test="salaryDept != null  and salaryDept != ''">#{salaryDept},</if>
             <if test="salaryAmount != null ">#{salaryAmount},</if>
          </trim>
@@ -44,7 +55,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <update id="updateSysSalary" parameterType="SysSalary">
         update sys_salary
         <trim prefix="SET" suffixOverrides=",">
-            <if test="salaryName != null  and salaryName != ''">salary_name = #{salaryName},</if>
+            <if test="salaryEmpId != null  and salaryEmpId != ''">salary_employee_id = #{salaryEmpId},</if>
             <if test="salaryDept != null  and salaryDept != ''">salary_dept = #{salaryDept},</if>
             <if test="salaryAmount != null ">salary_amount = #{salaryAmount},</if>
         </trim>
@@ -61,5 +72,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{salaryId}
         </foreach>
     </delete>
-    
+
+
+
 </mapper>

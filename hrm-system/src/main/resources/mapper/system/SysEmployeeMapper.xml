@@ -21,6 +21,7 @@
         <result property="employeeWorkDate" column="employee_work_date"/>
         <result property="employeeWorkLength" column="employee_work_length"/>
         <result property="userDeptId" column="userDeptId"/>
+        <result property="deptName" column="dept_name"/>
     </resultMap>
 
     <resultMap id="SysEmployeeAgeDistribution" type="SysEmployeeAgeDistribution">
@@ -36,6 +37,29 @@
     <sql id="selectSysEmployeeVo">
         select employee_id, employee_name, employee_sex, employee_status, employee_birthday, employee_school, employee_type, employee_degree, employee_dep, employee_post, employee_entry_date, employee_entry_length, employee_work_date, employee_work_length from sys_employee
     </sql>
+
+    <sql id="selectSysEmployeeVoSe">
+        SELECT
+            a.employee_id,
+            a.employee_name,
+            a.employee_sex,
+            a.employee_status,
+            a.employee_birthday,
+            a.employee_school,
+            a.employee_type,
+            a.employee_degree,
+            a.employee_dep,
+            a.employee_post,
+            a.employee_entry_date,
+            a.employee_entry_length,
+            a.employee_work_date,
+            a.employee_work_length,
+            b.dept_name
+        FROM
+            sys_employee a
+        LEFT JOIN sys_dept b on a.employee_dep=b.dept_id
+    </sql>
+
     <sql id="selectSysEmployeeLi">
         SELECT
             a.employee_id,
@@ -88,9 +112,9 @@
         where employee_id = #{employeeId}
     </select>
 
-    <select id="selectDeptByName" parameterType="String" resultMap="SysEmployeeResult">
-        <include refid="selectSysEmployeeVo"/>
-        where employee_name = #{employeeName}
+    <select id="selectDeptById" parameterType="integer" resultMap="SysEmployeeResult">
+        <include refid="selectSysEmployeeVoSe"/>
+        where employee_id = #{employeeId}
     </select>
 
     <insert id="insertSysEmployee" parameterType="SysEmployee" useGeneratedKeys="true" keyProperty="employeeId">

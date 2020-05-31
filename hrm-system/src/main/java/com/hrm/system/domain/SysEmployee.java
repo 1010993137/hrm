@@ -83,6 +83,19 @@ public class SysEmployee extends BaseEntity
     @Excel(name = "登录人机构ID")
     private Long userDeptId;
 
+
+    /** 登录人机构ID */
+    @Excel(name = "员工部门")
+    private String deptName;
+
+    public String getDeptName() {
+        return deptName;
+    }
+
+    public void setDeptName(String deptName) {
+        this.deptName = deptName;
+    }
+
     public void setEmployeeId(Long employeeId)
     {
         this.employeeId = employeeId;

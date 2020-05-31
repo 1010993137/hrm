@@ -91,4 +91,6 @@ public class SysSalaryServiceImpl implements ISysSalaryService
     {
         return sysSalaryMapper.deleteSysSalaryById(salaryId);
     }
+
+
 }

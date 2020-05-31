@@ -30,6 +30,17 @@ public class Global
     /** 获取地址开关 */
     private static boolean addressEnabled;
 
+    /** MySQL数据库所在服务器地址IP */
+    private static String hostIP;
+     /** 进入数据库所需要的用户名 */
+    private static String userName;
+     /** 进入数据库所需要的密码 */
+    private static String password;
+     /** 数据库导出文件保存路径 */
+    private static String savePath;
+     /** 要导出的数据库名 */
+    private static String databaseName;
+
     public static String getName()
     {
         return name;
@@ -112,5 +123,45 @@ public class Global
     public static String getUploadPath()
     {
         return getProfile() + "/upload";
+    }
+
+    public static String getHostIP() {
+        return hostIP;
+    }
+
+    public static void setHostIP(String hostIP) {
+        Global.hostIP = hostIP;
+    }
+
+    public static String getUserName() {
+        return userName;
+    }
+
+    public static void setUserName(String userName) {
+        Global.userName = userName;
+    }
+
+    public static String getPassword() {
+        return password;
+    }
+
+    public static void setPassword(String password) {
+        Global.password = password;
+    }
+
+    public static String getSavePath() {
+        return savePath;
+    }
+
+    public static void setSavePath(String savePath) {
+        Global.savePath = savePath;
+    }
+
+    public static String getDatabaseName() {
+        return databaseName;
+    }
+
+    public static void setDatabaseName(String databaseName) {
+        Global.databaseName = databaseName;
     }
 }
