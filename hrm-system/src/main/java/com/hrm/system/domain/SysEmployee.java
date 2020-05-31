@@ -79,6 +79,9 @@ public class SysEmployee extends BaseEntity
 
     private List<SysDept> deptList;
 
+    /** 离职日期 */
+    private Date employeeResignationDate;
+
     public void setEmployeeId(Long employeeId) 
     {
         this.employeeId = employeeId;
@@ -222,6 +225,14 @@ public class SysEmployee extends BaseEntity
 
     public void setDeptList(List<SysDept> deptList) {
         this.deptList = deptList;
+    }
+
+    public Date getEmployeeResignationDate() {
+        return employeeResignationDate;
+    }
+
+    public void setEmployeeResignationDate(Date employeeResignationDate) {
+        this.employeeResignationDate = employeeResignationDate;
     }
 
     @Override

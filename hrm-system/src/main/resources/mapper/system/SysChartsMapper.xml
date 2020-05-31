@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hrm.system.mapper.SysChartsMapper">
+    <resultMap id="SysCharts" type="SysCharts">
+        <result property="deptName" column="dept_name"/>
+        <result property="resignationNum" column="resignation_num"/>
+        <result property="postRecruitName" column="post_recruit_name"/>
+        <result property="postNum" column="post_num"/>
+    </resultMap>
+
+    <select id="getResignationNum" resultMap="SysCharts" parameterType="SysCharts">
+        SELECT b.dept_name,COUNT(*) as resignation_num FROM sys_employee a
+        LEFT JOIN sys_dept b ON a.employee_dep=b.dept_id
+        <where>
+            a.employee_status = '1' and a.employee_resignation_date > DATE_SUB(CURDATE(), INTERVAL 3 MONTH)
+            <if test="deptList != null">
+                and a.employee_dep in
+                <foreach collection="deptList" item="deptList" separator="," open="(" close=")">
+                    #{deptList.deptId}
+                </foreach>
+            </if>
+        </where>
+        GROUP BY b.dept_name
+    </select>
+
+    <select id="getPostNum" resultMap="SysCharts">
+        SELECT post_recruit_name,sum(post_recruit_num) as post_num FROM sys_post_recruit
+        GROUP BY post_recruit_name
+    </select>
+
+</mapper>

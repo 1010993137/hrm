@@ -20,6 +20,7 @@
         <result property="employeeEntryLength" column="employee_entry_length"/>
         <result property="employeeWorkDate" column="employee_work_date"/>
         <result property="employeeWorkLength" column="employee_work_length"/>
+        <result property="employeeResignationDate" column="employee_resignation_date"/>
     </resultMap>
 
     <resultMap id="SysEmployeeAgeDistribution" type="SysEmployeeAgeDistribution">
@@ -73,16 +74,18 @@
                     #{deptList.deptId}
                 </foreach>
             </if>
+            and employee_status = '0'
         </where>
     </select>
 
     <select id="selectEmployeeAll" resultMap="SysEmployeeResult">
         <include refid="selectSysEmployeeVo"/>
+        where employee_status = '0'
     </select>
 
     <select id="selectSysEmployeeById" parameterType="Long" resultMap="SysEmployeeResult">
         <include refid="selectSysEmployeeLi"/>
-        where employee_id = #{employeeId}
+        where employee_id = #{employeeId} and employee_status = '0'
     </select>
 
     <select id="selectDeptByName" parameterType="String" resultMap="SysEmployeeResult">
@@ -151,12 +154,12 @@
         delete from sys_employee where employee_id = #{employeeId}
     </delete>
 
-    <delete id="deleteSysEmployeeByIds" parameterType="String">
-        delete from sys_employee where employee_id in
+    <update id="deleteSysEmployeeByIds" parameterType="String">
+        update sys_employee set employee_status = '1',employee_resignation_date = CURDATE() where employee_id in
         <foreach item="employeeId" collection="array" open="(" separator="," close=")">
             #{employeeId}
         </foreach>
-    </delete>
+    </update>
 
     <select id="getEmployeeNum" parameterType="SysEmployee" resultType="string">
         select count(*) from sys_employee
