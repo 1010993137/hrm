@@ -1,10 +1,12 @@
 package com.hrm.system.domain;
 
+import com.hrm.common.core.domain.Ztree;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.hrm.common.annotation.Excel;
 import com.hrm.common.core.domain.BaseEntity;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 员工信息对象 sys_employee
@@ -74,6 +76,8 @@ public class SysEmployee extends BaseEntity
     /** 参加工作工龄 */
     @Excel(name = "参加工作工龄")
     private Long employeeWorkLength;
+
+    private List<SysDept> deptList;
 
     public void setEmployeeId(Long employeeId) 
     {
@@ -210,6 +214,14 @@ public class SysEmployee extends BaseEntity
     public Long getEmployeeWorkLength() 
     {
         return employeeWorkLength;
+    }
+
+    public List<SysDept> getDeptList() {
+        return deptList;
+    }
+
+    public void setDeptList(List<SysDept> deptList) {
+        this.deptList = deptList;
     }
 
     @Override

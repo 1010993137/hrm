@@ -1,8 +1,12 @@
 package com.hrm.web.controller.system;
 
 import com.hrm.common.core.controller.BaseController;
+import com.hrm.framework.util.ShiroUtils;
+import com.hrm.system.domain.SysDept;
+import com.hrm.system.domain.SysEmployee;
 import com.hrm.system.domain.SysEmployeeAgeDistribution;
 import com.hrm.system.domain.SysEmployeeDegreeDistribution;
+import com.hrm.system.service.ISysDeptService;
 import com.hrm.system.service.ISysEmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,36 +23,8 @@ import java.util.List;
 public class SysChartsController extends BaseController {
     @Autowired
     private ISysEmployeeService sysEmployeeService;
-
-    /**
-     * 获取员工人数
-     * @return 员工人数
-     */
-    @ResponseBody
-    @RequestMapping("/getEmployeeNum")
-    public String getEmployeeNum(){
-        return sysEmployeeService.getEmployeeNum();
-    }
-
-    /**
-     *获取正式员工人数
-     * @return
-     */
-    @ResponseBody
-    @RequestMapping("/getFormalEmployeeNum")
-    public String getFormalEmployeeNum(){
-        return  sysEmployeeService.getFormalEmployeeNum();
-    }
-
-    /**
-     * 获取本月入职的员工数量
-     * @return 本月入职员工数量
-     */
-    @ResponseBody
-    @RequestMapping("/getTisMonthEntryEmployeeNum")
-    public String getTisMonthEntryEmployeeNum(){
-        return sysEmployeeService.getTisMonthEntryEmployeeNum();
-    }
+    @Autowired
+    private ISysDeptService sysDeptService;
 
     /**
      * 获取员工年龄分布情况
@@ -57,7 +33,11 @@ public class SysChartsController extends BaseController {
     @ResponseBody
     @RequestMapping("/getEmployeeAgeDistribution")
     public List<SysEmployeeAgeDistribution> getEmployeeAgeDistribution(){
-        return sysEmployeeService.getEmployeeAgeDistribution();
+        //获取登录人的负责部门有哪些，用来查询负责的员工
+        SysEmployee sysEmployee = new SysEmployee();
+        List<SysDept> deptList = sysDeptService.selectDeptByUserId(ShiroUtils.getUserId());
+        sysEmployee.setDeptList(deptList);
+        return sysEmployeeService.getEmployeeAgeDistribution(sysEmployee);
     }
 
     /**
@@ -67,7 +47,11 @@ public class SysChartsController extends BaseController {
     @ResponseBody
     @RequestMapping("/getEmployeeDegreeDistribution")
     public List<SysEmployeeDegreeDistribution> getEmployeeDegreeDistribution(){
-        return sysEmployeeService.getEmployeeDegreeDistribution();
+        //获取登录人的负责部门有哪些，用来查询负责的员工
+        SysEmployee sysEmployee = new SysEmployee();
+        List<SysDept> deptList = sysDeptService.selectDeptByUserId(ShiroUtils.getUserId());
+        sysEmployee.setDeptList(deptList);
+        return sysEmployeeService.getEmployeeDegreeDistribution(sysEmployee);
     }
 
 }

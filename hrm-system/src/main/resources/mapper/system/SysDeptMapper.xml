@@ -151,4 +151,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  	    where dept_id in (${ancestors})
 	</update>
 
+	<select id="selectDeptByUserId" parameterType="Long" resultMap="SysDeptResult">
+		SELECT b.dept_id AS dept_id FROM sys_user_role a
+		LEFT JOIN sys_role_dept b ON a.role_id = b.role_id
+		<where>
+			a.user_id = #{userId}
+		</where>
+	</select>
+
 </mapper> 

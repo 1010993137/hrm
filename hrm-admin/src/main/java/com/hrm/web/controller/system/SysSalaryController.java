@@ -1,6 +1,11 @@
 package com.hrm.web.controller.system;
 
 import java.util.List;
+
+import com.hrm.framework.util.ShiroUtils;
+import com.hrm.system.domain.SysDept;
+import com.hrm.system.domain.SysEmployee;
+import com.hrm.system.service.ISysDeptService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -36,6 +41,8 @@ public class SysSalaryController extends BaseController
     private ISysSalaryService sysSalaryService;
     @Autowired
     private ISysEmployeeService sysEmployeeService;
+    @Autowired
+    private ISysDeptService sysDeptService;
     
     @RequiresPermissions("system:salary:view")
     @GetMapping()
@@ -53,6 +60,9 @@ public class SysSalaryController extends BaseController
     public TableDataInfo list(SysSalary sysSalary)
     {
         startPage();
+        //获取登录人的负责部门有哪些，用来查询负责的员工
+        List<SysDept> deptList = sysDeptService.selectDeptByUserId(ShiroUtils.getUserId());
+        sysSalary.setDeptList(deptList);
         List<SysSalary> list = sysSalaryService.selectSysSalaryList(sysSalary);
         return getDataTable(list);
     }

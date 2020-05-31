@@ -37,6 +37,13 @@ public interface ISysDeptService
     public List<Ztree> roleDeptTreeData(SysRole role);
 
     /**
+     * 根据userId查询该角色所负责机构
+     * @param userId
+     * @return
+     */
+    public List<SysDept> selectDeptByUserId(Long userId);
+
+    /**
      * 查询部门人数
      * 
      * @param parentId 父部门ID

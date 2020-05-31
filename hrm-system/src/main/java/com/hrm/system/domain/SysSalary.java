@@ -5,6 +5,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.hrm.common.annotation.Excel;
 import com.hrm.common.core.domain.BaseEntity;
 
+import java.util.List;
+
 /**
  * 薪资管理对象 sys_salary
  * 
@@ -29,6 +31,9 @@ public class SysSalary extends BaseEntity
     /** 底薪 */
     @Excel(name = "底薪")
     private Long salaryAmount;
+
+    /** 登录人管理结构 */
+    private List<SysDept> deptList;
 
     public void setSalaryId(Long salaryId) 
     {
@@ -65,6 +70,14 @@ public class SysSalary extends BaseEntity
     public Long getSalaryAmount() 
     {
         return salaryAmount;
+    }
+
+    public List<SysDept> getDeptList() {
+        return deptList;
+    }
+
+    public void setDeptList(List<SysDept> deptList) {
+        this.deptList = deptList;
     }
 
     @Override
