@@ -82,7 +82,6 @@ public class SysEmployee extends BaseEntity
     /** 离职日期 */
     private Date employeeResignationDate;
 
-    public void setEmployeeId(Long employeeId)
     /** 登录人机构ID */
     @Excel(name = "登录人机构ID")
     private Long userDeptId;
